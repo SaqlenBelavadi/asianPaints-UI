@@ -1,0 +1,235 @@
+<div class="page__wrapper">
+  <section class="content-section">
+    <div class="container-fluid page__content-block">
+      <div class="page__header">
+        <div class="page__tabContainer">
+          <h2 class="page__heading">Participation Details</h2>
+        </div>
+
+        <div class="page__rightColumn participation">
+          <button
+            type="button"
+            class="btn btn-grey"
+            *ngIf="role !== roleEnum.EMPLOYEE"
+            (click)="uploadCsv()"
+          >
+            <img src="assets\images\upload.svg" alt="" /> Upload
+          </button>
+          <button
+            type="button"
+            class="btn btn-grey"
+            *ngIf="role !== roleEnum.EMPLOYEE"
+            (click)="downloadParticipationCsv()"
+            [disabled]="pagedItems.length === 0"
+          >
+            <img src="assets\images\download.svg" alt="" /> Download CSV
+          </button>
+          <form class="example-form">
+            <mat-form-field class="m-0 p-0" appearance="outline">
+              <mat-label>Employee Id & Name</mat-label>
+              <div class="flbx-stretch">
+                <input
+                  type="text"
+                  matInput
+                  [formControl]="searchControl"
+                  (keyup.enter)="searchParticipation()"
+                  (change)="onChangeState()"
+                />
+                <span class="tb-search-ico">
+                  <mat-icon
+                    class="cancel"
+                    matSuffix
+                    (click)="closeSearch()"
+                    *ngIf="searchControl?.value"
+                    >cancel</mat-icon
+                  >
+                  <mat-icon matSuffix (click)="searchParticipation()"
+                    >search</mat-icon
+                  >
+                </span>
+              </div>
+            </mat-form-field>
+          </form>
+
+          <!-- Search with dropdown -->
+          <!-- <form class="example-form search-form">
+            <mat-form-field class="m-0 p-0" appearance="outline">
+              <div class="flbx-stretch s-input-wrapper">
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Search"
+                  [formControl]="searchControl"
+                  (keyup.enter)="searchParticipation()"
+                  (change)="onChangeState()"/>
+                <span class="tb-search-ico">
+                  <mat-icon
+                    class="cancel"
+                    matSuffix
+                    (click)="closeSearch()"
+                    *ngIf="searchControl?.value">
+                    cancel</mat-icon>
+                    <mat-icon matSuffix (click)="searchParticipation()">search</mat-icon>
+                </span>
+              </div>
+            </mat-form-field>
+            <mat-form-field class="searchby" appearance="outline">
+              <mat-select placeholder="Search by">
+                <mat-option value="employeeid">Employee ID</mat-option>
+                <mat-option value="name">Name</mat-option>
+                <mat-option value="activityname">Activity Name</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form> -->
+        </div>
+      </div>
+      <div
+        class="document-listing"
+        *ngIf="pagedItems?.length === 0; else showData"
+      >
+        <div class="no-data-box">
+          <div class="no-data">
+            <img src="assets\images\activities\nodata.png" alt="no data" />
+            <h4>No Records to show</h4>
+          </div>
+        </div>
+      </div>
+      <ng-template #showData>
+        <div class="common-table">
+          <table mat-table [dataSource]="pagedItems" class="mat-elevation-z8">
+            <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="No">
+              <th mat-header-cell *matHeaderCellDef>No</th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                {{ this.currentPager.startIndex + i + 1 }}
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="Employee ID">
+              <th mat-header-cell *matHeaderCellDef>Employee ID</th>
+              <ng-container *ngIf="role === roleEnum.EMPLOYEE; else withLink">
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.employeeId }}
+                </td>
+              </ng-container>
+              <ng-template #withLink>
+                <td mat-cell *matCellDef="let element">
+                  <a
+                    href="javascript:void(0);"
+                    (click)="navigateToMyHistory(element?.employeeId)"
+                    >{{ element?.employeeId }}
+                  </a>
+                </td>
+              </ng-template>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="Name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.employeeName }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Activity Id">
+              <th mat-header-cell *matHeaderCellDef>Activity ID</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.activityId }}
+              </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="Activity Name">
+              <th mat-header-cell *matHeaderCellDef>Activity Name</th>
+              <td title="{{ element.activityName }}" mat-cell *matCellDef="let element" class="act-name">
+                {{ element?.activityName }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Activity Tag">
+              <th mat-header-cell *matHeaderCellDef>Activity Tag</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.activityTag }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Participation Hours">
+              <th mat-header-cell *matHeaderCellDef>Participation Hours</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.participationHours }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Location">
+              <th mat-header-cell *matHeaderCellDef>Location</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.activityLocation }}
+              </td>
+            </ng-container>
+            <ng-container
+              matColumnDef="Approve"
+              *ngIf="role !== roleEnum.EMPLOYEE"
+            >
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="selectAll('APPROVE', $event)" disabled>
+                </mat-checkbox>
+                Approve
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <section class="check-section">
+                  <mat-checkbox
+                    class="example-margin"
+                    (change)="approve($event, element)"
+                    [checked]="element?.approvedByAdmin"
+                    disabled
+                  >
+                  </mat-checkbox>
+                </section>
+              </td>
+            </ng-container>
+            <ng-container
+              matColumnDef="Reject"
+              *ngIf="role !== roleEnum.EMPLOYEE"
+            >
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="selectAll('REJECT', $event)">
+                </mat-checkbox>
+                Reject
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <section class="check-section">
+                  <mat-checkbox
+                    [checked]="element?.rejectedByAdmin"
+                    class="example-margin"
+                    (change)="reject($event, element)"
+                  >
+                  </mat-checkbox>
+                </section>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+        <div>
+          <app-pagination
+            (pageChange)="onPageChange($event)"
+            [page]="currentPage"
+            [pageSize]="pageSize"
+            [totalItems]="totalItems"
+          ></app-pagination>
+        </div>
+        <div
+          class="d-flex justify-content-end"
+          *ngIf="role !== roleEnum.EMPLOYEE"
+        >
+          <button class="btn btn-red" (click)="saveAll()">Save</button>
+        </div>
+      </ng-template>
+    </div>
+  </section>
+</div>

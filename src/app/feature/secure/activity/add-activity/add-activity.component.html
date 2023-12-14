@@ -1,0 +1,1146 @@
+<div class="cont-inner">
+  <p>Task Info</p>
+  <form [formGroup]="activityForm" *ngIf="loaded">
+    <div class="row align-items-start">
+      <div class="col-12 col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Name of Activity</mat-label>
+          <input matInput formControlName="activityName" />
+          <mat-error *ngIf="
+              activityForm.get('activityName')?.invalid &&
+              (activityForm.get('activityName')?.dirty ||
+                activityForm.get('activityName')?.touched)
+            ">
+            <div *ngIf="
+                activityForm.get('activityName')?.hasError('trimError');
+                else requiredError
+              ">
+              {{ activityForm.get("activityName")?.errors?.trimError?.value }}
+            </div>
+            <ng-template #requiredError>
+              <ng-container *ngIf="activityForm.get('activityName')?.invalid">
+                Activity name required
+              </ng-container>
+            </ng-template>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Theme of Activity </mat-label>
+          <mat-select formControlName="themeName" (selectionChange)="onThemeSelectionChange($event)">
+            <mat-option *ngFor="let theme of themeArray" [value]="theme.lovValue">{{ theme.lovDisplayName
+              }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="
+              activityForm.get('themeName')?.invalid &&
+              (activityForm.get('themeName')?.dirty ||
+                activityForm.get('themeName')?.touched)
+            ">
+            Theme of Activity required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-4 mb-3">
+        <mat-form-field fxFlex="30" appearance="outline">
+          <mat-label>Activity Tag</mat-label>
+          <mat-select formControlName="tagName" #select name="selectedCategories"
+            (selectionChange)="addNewTagOpenDialog($event)">
+            <mat-select-trigger *ngIf="select.value === 'new'">
+              {{ "" }}
+            </mat-select-trigger>
+            <mat-option *ngIf="activityForm.get('themeName')?.value" readonly
+              [value]="'new'"><mat-icon>add_task</mat-icon>Add New</mat-option>
+            <mat-option *ngFor="let list of tagsArray" [value]="list.lovValue">
+              {{ list.lovDisplayName }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="
+              activityForm.get('tagName')?.invalid &&
+              (activityForm.get('tagName')?.dirty ||
+                activityForm.get('tagName')?.touched)
+            ">
+            Activity tag required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Place of Activity </mat-label>
+          <mat-select formControlName="activityLocation" #select1 multiple required>
+            <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{ standalone: true }"
+              (change)="toggleAllSelection()" class="place-all">All Locations</mat-checkbox>
+
+            <mat-option *ngFor="let loc of locationArray" [value]="loc.lovValue">
+              {{ loc.lovDisplayName }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="
+              activityForm.get('activityLocation')?.invalid &&
+              (activityForm.get('activityLocation')?.dirty ||
+                activityForm.get('activityLocation')?.touched)
+            ">
+            Place of Activity required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <!-- <div class="col-12 col-md-4 mb-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Place of Activity </mat-label>
+                    <input matInput formControlName="activityLocation">
+                    <mat-error
+                        *ngIf="activityForm.get('activityLocation')?.invalid && (activityForm.get('activityLocation')?.dirty || activityForm.get('activityLocation')?.touched)">
+                        Place of Activity required
+                    </mat-error>
+                </mat-form-field>
+
+            </div> -->
+      <div class="col-12 col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Activity Place (Village/Ward Name)</mat-label>
+          <input matInput formControlName="activityPlace" />
+          <mat-error *ngIf="
+              activityForm.get('activityPlace')?.invalid &&
+              (activityForm.get('activityPlace')?.dirty ||
+                activityForm.get('activityPlace')?.touched)
+            ">
+            <div *ngIf="
+                activityForm.get('activityPlace')?.hasError('trimError');
+                else requiredError
+              ">
+              {{ activityForm.get("activityPlace")?.errors?.trimError?.value }}
+            </div>
+            <ng-template #requiredError>
+              <ng-container *ngIf="activityForm.get('activityPlace')?.invalid">
+                Activity Place (Village/Ward Name) required
+              </ng-container>
+            </ng-template>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Objective of Activity </mat-label>
+          <input matInput formControlName="objectiveActivity" />
+          <mat-error *ngIf="
+              activityForm.get('objectiveActivity')?.invalid &&
+              (activityForm.get('objectiveActivity')?.dirty ||
+                activityForm.get('objectiveActivity')?.touched)
+            ">
+            <div *ngIf="
+                activityForm.get('objectiveActivity')?.hasError('trimError');
+                else requiredError
+              ">
+              {{
+              activityForm.get("objectiveActivity")?.errors?.trimError?.value
+              }}
+            </div>
+            <ng-template #requiredError>
+              <ng-container *ngIf="activityForm.get('objectiveActivity')?.invalid">
+                Objective of Activity required
+              </ng-container>
+            </ng-template>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <ng-container [formGroup]="dateRangeForm">
+        <div class="col-12 col-md-4 mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Activity Start Date </mat-label>
+            <input matInput [ngxMatDatetimePicker]="picker" placeholder="" [max]="maxDate"
+              formControlName="startDate" />
+            <mat-error *ngIf="
+                dateRangeForm.get('startDate')?.invalid &&
+                (dateRangeForm.get('startDate')?.dirty ||
+                  dateRangeForm.get('startDate')?.touched)
+              ">
+              Activity start date required
+            </mat-error>
+            <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+              [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi"
+              [color]="color" [enableMeridian]="enableMeridian">
+            </ngx-mat-datetime-picker>
+            <!-- <mat-label>Activity Start Date </mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="startDate">
+
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker> -->
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-4 mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Activity End Date </mat-label>
+            <input matInput [ngxMatDatetimePicker]="picker1" placeholder="" [min]="minDate" [max]="maxDate"
+              formControlName="endDate" />
+            <mat-error *ngIf="
+                dateRangeForm.get('endDate')?.invalid &&
+                (dateRangeForm.get('endDate')?.dirty ||
+                  dateRangeForm.get('endDate')?.touched)
+              ">
+              Activity end date required
+            </mat-error>
+            <mat-error *ngIf="dateRangeForm?.hasError('dateValid')">Date should be greater than start date</mat-error>
+            <mat-datepicker-toggle matSuffix [for]="$any(picker1)"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker1 [showSpinners]="showSpinners" [showSeconds]="showSeconds"
+              [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi"
+              [color]="color" [enableMeridian]="enableMeridian">
+            </ngx-mat-datetime-picker>
+          </mat-form-field>
+        </div>
+      </ng-container>
+
+      <div class="col-12 col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Time of Activity *</mat-label>
+          <input matInput formControlName="timeOfActivity" />
+          <mat-error *ngIf="
+              timeRequiredForm.get('timeOfActivity')?.invalid &&
+              (timeRequiredForm.get('timeOfActivity')?.dirty ||
+                timeRequiredForm.get('timeOfActivity')?.touched)
+            ">
+            Time of activity required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-4 mb-3 time-req-outer" [formGroup]="timeRequiredForm">
+        <mat-label class="label-top-small">Committed Man Hours *</mat-label>
+        <div class="time-required-input">
+          <div>
+            <div class="flbx-vac">
+              <input matInput id="inp1" type="number" min="0" max="23" formControlName="hours" />Hours
+            </div>
+            <mat-error *ngIf="
+                timeRequiredForm.get('hours')?.invalid &&
+                (timeRequiredForm.get('hours')?.dirty ||
+                  timeRequiredForm.get('hours')?.touched)
+              ">
+              Activity Hours required
+            </mat-error>
+          </div>
+
+          <div>
+            <div class="flbx-vac">
+              <input matInput id="inp2" type="number" min="0" max="59" formControlName="minutes" />Minutes
+            </div>
+            <mat-error *ngIf="
+                timeRequiredForm.get('minutes')?.invalid &&
+                (timeRequiredForm.get('minutes')?.dirty ||
+                  timeRequiredForm.get('minutes')?.touched)
+              ">
+              Activity Minutes required
+            </mat-error>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4 radio mb-3">
+        <label class="d-block">Mode of Participation *</label>
+        <mat-radio-group aria-label="Select an option" formControlName="modeOfParticipation">
+          <ng-container *ngFor="let list of modeArray">
+            <div class="radio-btn">
+              <mat-radio-button [value]="list.lovValue">{{
+                list.lovDisplayName
+                }}</mat-radio-button>
+            </div>
+          </ng-container>
+        </mat-radio-group>
+        <mat-error *ngIf="
+            activityForm.get('modeOfParticipation')?.invalid &&
+            (activityForm.get('modeOfParticipation')?.dirty ||
+              activityForm.get('modeOfParticipation')?.touched)
+          ">
+          Mode of Participation required
+        </mat-error>
+      </div>
+
+      <div class="col-12 mb-3">
+        <!-- <mat-form-field appearance="outline"> -->
+        <mat-label class="label-top">Brief Description* </mat-label>
+
+        <editor [init]="editorConfig" formControlName="briefDescription"></editor>
+        <div class="desc-label-limit-sec">
+          <h5>*Max 3999 characters.</h5>
+          <h5>{{contentMaxLength - activityForm.get('briefDescription')?.value?.length}}</h5>
+        </div>
+        <mat-error *ngIf="
+            activityForm.get('briefDescription')?.invalid &&
+            (activityForm.get('briefDescription')?.dirty ||
+              activityForm.get('briefDescription')?.touched)
+          ">
+          <div *ngIf="
+              activityForm.get('briefDescription')?.hasError('trimError');
+              else requiredError
+            ">
+            {{ activityForm.get("briefDescription")?.errors?.trimError?.value }}
+          </div>
+          <ng-template #requiredError>
+            <ng-container *ngIf="activityForm.get('briefDescription')?.errors.required">
+              Brief Description required
+            </ng-container>
+            <ng-container *ngIf="activityForm.get('briefDescription')?.errors.maxlength">
+              Maximum characted limit is 3999.
+            </ng-container>
+          </ng-template>
+        </mat-error>
+        <!-- </mat-form-field> -->
+      </div>
+      <div class="col-12 mb-3">
+        <mat-label class="label-top">Description* </mat-label>
+        <editor [init]="editorConfig" formControlName="completeDescription">
+        </editor>
+        <div class="desc-label-limit-sec">
+          <h5>*Max 3999 characters.</h5>
+          <h5>{{contentMaxLength - activityForm.get('completeDescription')?.value?.length}}</h5>
+        </div>
+
+        <mat-error *ngIf="
+            activityForm.get('completeDescription')?.invalid &&
+            (activityForm.get('completeDescription')?.dirty ||
+              activityForm.get('completeDescription')?.touched)
+          ">
+          <div *ngIf="
+              activityForm.get('completeDescription')?.hasError('trimError');
+              else requiredError
+            ">
+            {{
+            activityForm.get("completeDescription")?.errors?.trimError?.value
+            }}
+          </div>
+          <ng-template #requiredError>
+            <ng-container *ngIf="activityForm.get('completeDescription')?.invalid">
+              Description required
+            </ng-container>
+          </ng-template>
+        </mat-error>
+      </div>
+      <div class="col-12 mb-3">
+        <mat-label class="label-top">Do's* </mat-label>
+        <editor [init]="editorConfig" formControlName="dosInstruction">
+        </editor>
+        <div class="desc-label-limit-sec">
+          <h5>*Max 3999 characters.</h5>
+          <h5>{{contentMaxLength - activityForm.get('dosInstruction')?.value?.length}}</h5>
+        </div>
+        <mat-error *ngIf="
+            activityForm.get('dosInstruction')?.invalid &&
+            (activityForm.get('dosInstruction')?.dirty ||
+              activityForm.get('dosInstruction')?.touched)
+          ">
+          <div *ngIf="
+              activityForm.get('dosInstruction')?.hasError('trimError');
+              else requiredError
+            ">
+            {{ activityForm.get("dosInstruction")?.errors?.trimError?.value }}
+          </div>
+          <ng-template #requiredError>
+            <ng-container *ngIf="activityForm.get('dosInstruction')?.invalid">
+              Do's required
+            </ng-container>
+          </ng-template>
+        </mat-error>
+      </div>
+      <div class="col-12 mb-3">
+        <mat-label class="label-top">Don'ts*</mat-label>
+        <editor [init]="editorConfig" formControlName="dontInstruction">
+        </editor>
+        <div class="desc-label-limit-sec">
+          <h5>*Max 3999 characters.</h5>
+          <h5>{{contentMaxLength - activityForm.get('dontInstruction')?.value?.length}}</h5>
+        </div>
+        <mat-error *ngIf="
+            activityForm.get('dontInstruction')?.invalid &&
+            (activityForm.get('dontInstruction')?.dirty ||
+              activityForm.get('dontInstruction')?.touched)
+          ">
+          <div *ngIf="
+              activityForm.get('dontInstruction')?.hasError('trimError');
+              else requiredError
+            ">
+            {{ activityForm.get("dontInstruction")?.errors?.trimError?.value }}
+          </div>
+          <ng-template #requiredError>
+            <ng-container *ngIf="activityForm.get('dontInstruction')?.invalid">
+              Don'ts required
+            </ng-container>
+          </ng-template>
+        </mat-error>
+      </div>
+      <div class="col-12 col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Contact Person</mat-label>
+          <input matInput formControlName="contactPerson" placeholder="Search with employee code"
+            [matAutocomplete]="auto" (keyup)="keyDownEventForAuto($event)" />
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectEmployee($event.option.value)"
+            class="contactperson_auto">
+            <cdk-virtual-scroll-viewport class="autocomplete-test-viewport" [ngStyle]="{ height: height }"
+              itemSize="25">
+              <mat-option *cdkVirtualFor="let emp of filteredOptions" [value]="emp">
+                {{ emp }}
+              </mat-option>
+            </cdk-virtual-scroll-viewport>
+          </mat-autocomplete>
+          <mat-error *ngIf="
+              activityForm.get('contactPerson')?.invalid &&
+              (activityForm.get('contactPerson')?.dirty ||
+                activityForm.get('contactPerson')?.touched)
+            ">
+            <div *ngIf="
+                activityForm.get('contactPerson')?.hasError('trimError');
+                else requiredError
+              ">
+              {{ activityForm.get("contactPerson")?.errors?.trimError?.value }}
+            </div>
+            <ng-template #requiredError>
+              <ng-container *ngIf="activityForm.get('contactPerson')?.invalid">
+                Contact Person required
+              </ng-container>
+            </ng-template>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Contact Email</mat-label>
+          <input matInput formControlName="contanctEmail" />
+          <mat-error *ngIf="
+              activityForm.get('contanctEmail')?.invalid &&
+              (activityForm.get('contanctEmail')?.dirty ||
+                activityForm.get('contanctEmail')?.touched)
+            ">
+            <div *ngIf="
+                activityForm.get('contanctEmail')?.hasError('trimError');
+                else requiredError
+              ">
+              {{ activityForm.get("contanctEmail")?.errors?.trimError?.value }}
+            </div>
+            <ng-template #requiredError>
+              <ng-container *ngIf="activityForm.get('contanctEmail')?.invalid">
+                Contact Email required
+              </ng-container>
+            </ng-template>
+          </mat-error>
+          <mat-error *ngIf="
+              activityForm.get('contanctEmail')?.invalid &&
+              activityForm.get('contanctEmail')?.errors?.email
+            ">
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-4 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>CSR Admin Location</mat-label>
+          <input matInput formControlName="csrAdminLocation" />
+          <mat-error *ngIf="
+              activityForm.get('csrAdminLocation')?.invalid &&
+              (activityForm.get('csrAdminLocation')?.dirty ||
+                activityForm.get('csrAdminLocation')?.touched)
+            ">
+            <div *ngIf="
+                activityForm.get('csrAdminLocation')?.hasError('trimError');
+                else requiredError
+              ">
+              {{
+              activityForm.get("csrAdminLocation")?.errors?.trimError?.value
+              }}
+            </div>
+            <ng-template #requiredError>
+              <ng-container *ngIf="activityForm.get('csrAdminLocation')?.invalid">
+                CSR Admin Location required
+              </ng-container>
+            </ng-template>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 mb-3">
+        <section class="check-section">
+          <mat-checkbox class="example-margin" #checkbox formControlName="needRequestFromCCSR">Support required from
+            CCSR?</mat-checkbox>
+        </section>
+        <section *ngIf="checkbox.checked">
+          <mat-form-field appearance="outline">
+            <mat-label>Need Request for CSR </mat-label>
+            <textarea matInput placeholder="write here ..." formControlName="requestFromCCSR"></textarea>
+            <mat-error *ngIf="
+                activityForm.get('requestFromCCSR')?.invalid &&
+                (activityForm.get('requestFromCCSR')?.dirty ||
+                  activityForm.get('requestFromCCSR')?.touched)
+              ">
+              Need Request for CSR required
+            </mat-error>
+          </mat-form-field>
+        </section>
+      </div>
+
+      <div class="col-12 radio radio-block mt-5 mb-3">
+        <label class="d-block">
+          {{
+          this.role === roleEnum.EMPLOYEE
+          ? "Badge to Collect *"
+          : "Badge to Provide *"
+          }}
+        </label>
+        <mat-radio-group aria-label="Select an option" formControlName="badgeToBeProvided">
+          <div class="radio-btn">
+            <mat-radio-button value="true">Yes</mat-radio-button>
+          </div>
+          <div class="radio-btn">
+            <mat-radio-button value="false">No</mat-radio-button>
+          </div>
+        </mat-radio-group>
+        <!-- <mat-error
+                    *ngIf="activityForm.get('requestFromCCSR')?.invalid && (activityForm.get('requestFromCCSR')?.dirty || activityForm.get('requestFromCCSR')?.touched)">
+                    Need Request for CSR
+                </mat-error> -->
+      </div>
+    </div>
+    <hr />
+    <!-- upload images or videos start -->
+    <div [ngClass]="{ disableDiv: isPastActivityEdit || isOngoingActivityEdit }">
+      <div class="row mt-4">
+        <div class="col-12 col-md-6">
+          <label class="mb-2">Upload Picture*</label>
+          <div class="item-wrapper one">
+            <div class="item">
+              <div class="item-inner">
+                <div class="item-content">
+                  <div class="image-upload" appDrag (drop)="filesDropped($event, 'imageOrvideo')">
+                    <label style="cursor: pointer" for="file_upload">
+                      <!-- <img src="" alt="" class="uploaded-image"> -->
+
+                      <div class="h-100">
+                        <div class="dplay-tbl">
+                          <div class="dplay-tbl-cell">
+                            <img src="assets\images\upload-icon.svg" alt="upload" />
+                            <div>
+                              <h3 class="m-0 text-start">
+                                Drag and drop file here
+                              </h3>
+                              <p class="m-0 text-start">Or</p>
+                              <h2 class="m-0 text-start">Browse file</h2>
+                              <p class="m-0 text-start">1100 x 347</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--upload-content-->
+                      <input type="file" id="file_upload" class="image-input" multiple
+                        data-traget-resolution="image_resolution" #fileInput
+                        (change)="onFileSelection($event, 'imageOrvideo')"
+                        accept=".jpg,.jpeg,.bmp,.png,.wav,.mp3,.mp4,.avi,.mov" />
+                    </label>
+                  </div>
+                </div>
+                <!--item-content-->
+              </div>
+              <!--item-inner-->
+            </div>
+            <mat-error *ngIf="
+                activityForm.get('images')?.invalid &&
+                (activityForm.get('images')?.dirty ||
+                  activityForm.get('images')?.touched)
+              ">
+              Please select an image or video.
+            </mat-error>
+            <!--item-->
+          </div>
+        </div>
+        <div class="col-12 col-md-6 selected-img mt-4">
+          <p>*Image file size limit is 5MB</p>
+          <p>*Video file size max. 5MB</p>
+          <p>*All images and video files supported</p>
+          <p>Recommended image size - 1100 x 347</p>
+        </div>
+      </div>
+      <div class="row pt-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <h4 (click)="fileInput.click()" class="m-0 pointer">
+            + Add more photos
+          </h4>
+          <button class="btn btn-uploaded" *ngIf="isImageUploaded">
+            <img src="assets\images\check-bt.svg" /> Uploaded
+          </button>
+          <button class="btn btn-red" [disabled]="
+              photosOrVideos.value.length === 0 ||
+              disableUploadImgbtn ||
+              activityForm.get('images')?.invalid
+            " (click)="uploadPictureOrVideos('imageOrvideo')" *ngIf="!isImageUploaded">
+            <img src="assets\images\publish_red.svg" /> Upload
+          </button>
+        </div>
+        <div class="choose-img mt-3" *ngIf="photosOrVideos.value.length">
+          <div class="answers" formArrayName="images" data-toggle="modal" data-target="#exampleModal"
+            *ngFor="let preview of photosOrVideos?.controls; let i = index">
+            <div [formGroupName]="i">
+              <label class="answer">
+                <img [src]="preview.get('url')?.value" *ngIf="
+                    preview.get('format')?.value === 'image' &&
+                    preview.get('url')?.value
+                  " class="preview_img" />
+                <video *ngIf="
+                    preview.get('format')?.value === 'video' &&
+                    preview.get('url')?.value
+                  " controls class="preview_video" [autoplay]="true">
+                  <source [src]="preview.get('url')?.value" type="video/avi" />
+                </video>
+                <input type="radio" name="answer1" [value]="i" [formControl]="selectedCoverPhotoIndex" />
+
+                <div class="close">
+                  <img src="assets/images/close.svg" (click)="clearImage(i, 'imageOrvideo')" />
+                </div>
+              </label>
+              <mat-form-field appearance="outline">
+                <mat-label>Caption </mat-label>
+                <input matInput [value]="preview.get('caption')?.value" formControlName="caption" />
+                <mat-error *ngIf="preview.get('caption')?.errors?.required">
+                  Caption required.
+                </mat-error>
+                <mat-error *ngIf="
+                    preview.get('caption')?.errors?.maxlength?.requiredLength
+                  ">
+                  Caption can be max 40 characters long.
+                </mat-error>
+              </mat-form-field>
+              <mat-error *ngIf="selectedCoverPhotoIndex?.errors?.required">
+                Please check any photo as cover image.
+              </mat-error>
+            </div>
+          </div>
+          <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    ...
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+        </div>
+        <p>*Mark to set the image as cover photo</p>
+      </div>
+    </div>
+
+    <!-- upload images or videos end -->
+
+    <!-- creative upload section start -->
+    <hr />
+    <div class="row mt-4" [ngClass]="{ disableDiv: isPastActivityEdit || isOngoingActivityEdit }">
+      <div class="d-flex justify-content-between align-items-center">
+        <p>Creatives</p>
+        <button class="btn btn-red" [disabled]="
+            creativeUploads.value.length === 0 || disableUploadCrtvbtn
+          " (click)="uploadPictureOrVideos('creative')" *ngIf="!isCreativeImageUploaded">
+          <img src="assets\images\publish_red.svg" /> Upload
+        </button>
+
+        <!-- uploaded button -->
+        <button class="btn btn-uploaded" *ngIf="isCreativeImageUploaded">
+          <img src="assets\images\check-bt.svg" /> Uploaded
+        </button>
+      </div>
+      <div class="col-12 col-md-6">
+        <label class="mb-2">Upload Files</label>
+        <div class="item-wrapper one">
+          <div class="item">
+            <div class="item-inner">
+              <div class="item-content">
+                <div class="image-upload" appDrag (drop)="filesDropped($event, 'creative')">
+                  <label style="cursor: pointer" for="file_creative_upload">
+                    <div class="h-100">
+                      <div class="dplay-tbl">
+                        <div class="dplay-tbl-cell">
+                          <img src="assets/images/upload-icon.svg" alt="upload" />
+                          <div>
+                            <h3 class="m-0 text-start">
+                              Drag and drop file here
+                            </h3>
+                            <p class="m-0 text-start">Or</p>
+                            <h2 class="m-0 text-start">Browse file</h2>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--upload-content-->
+                    <input type="file" id="file_creative_upload" class="image-input" multiple
+                      data-traget-resolution="image_resolution" #creativeUploadInput
+                      (change)="onFileSelection($event, 'creative')" />
+                    <mat-error *ngIf="
+                        activityForm.get('creativeFiles')?.errors?.required
+                      ">
+                      Please select any file.
+                    </mat-error>
+                  </label>
+                </div>
+              </div>
+              <!--item-content-->
+            </div>
+            <!--item-inner-->
+          </div>
+          <!--item-->
+        </div>
+        <p class="mt-2">*Maximum file size is 5MB</p>
+      </div>
+      <div class="col-12 col-md-6 selected-img mt-4 pt-2">
+        <div formArrayName="creativeFiles" class="choose-file d-flex align-items-center justify-content-between"
+          *ngFor="let preview of creativeUploads?.controls; let i = index">
+          <div class="file-name d-flex align-items-center">
+            <mat-icon>file_present</mat-icon><a href="jjavascript:void(0);"
+              (click)="goToLink(preview.get('url')?.value)"><span class="ps-2">{{ preview.get("name")?.value
+                }}</span></a>
+          </div>
+          <mat-icon (click)="clearImage(i, 'creative')">delete</mat-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- creative upload section end -->
+
+    <!-- past videos upload section start -->
+    <hr />
+    <div class="row mt-4 vde-upload" [ngClass]="{ disableDiv: isPastActivityEdit || isOngoingActivityEdit }">
+      <div class="d-flex justify-content-between align-items-center pb-2">
+        <p>Past activity videos</p>
+        <!-- uploaded button -->
+        <button class="btn btn-uploaded" *ngIf="isPastVideoUploaded">
+          <img src="assets\images\check-bt.svg" /> Uploaded
+        </button>
+        <button class="btn btn-red" [disabled]="pastVideos.value.length === 0 || disablePastUploadbtn"
+          (click)="uploadPictureOrVideos('pastvideo')" *ngIf="!isPastVideoUploaded">
+          <img src="assets\images\publish_red.svg" /> Upload
+        </button>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="one">
+          <div class="item">
+            <div class="item-inner">
+              <div class="item-content upload-video">
+                <div class="image-upload video-upload" appDrag (drop)="filesDropped($event, 'pastvideo')"
+                  [ngClass]="{ disableDiv: isPastUrlEntered }">
+                  <label style="cursor: pointer" for="file_past_upload">
+                    <div class="h-100">
+                      <div class="dplay-tbl">
+                        <div class="dplay-tbl-cell">
+                          <img src="assets/images/upload-icon.svg" alt="upload" />
+                          <div>
+                            <h3 class="m-0 text-start">
+                              Drag and drop file here
+                            </h3>
+                            <p class="m-0 text-start">Or</p>
+                            <h2 class="m-0 text-start">Browse file</h2>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--upload-content-->
+                    <input data-required="image" type="file" id="file_past_upload" class="image-input" multiple
+                      data-traget-resolution="image_resolution" #pastVideoInput
+                      (change)="onFileSelection($event, 'pastvideo')" accept="video/*" />
+                  </label>
+                </div>
+                <div class="or-option">
+                  <h4><span class="px-2">or</span></h4>
+                  <p>Past Videos</p>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Video Url</mat-label>
+                    <input matInput placeholder="Placeholder" formControlName="pastVideoUrl" />
+                    <!-- <span class="upload-vd">Upload</span> -->
+                  </mat-form-field>
+                  <mat-error *ngIf="
+                      activityForm.get('pastVideoUrl')?.invalid &&
+                      (activityForm.get('pastVideoUrl')?.dirty ||
+                        activityForm.get('pastVideoUrl')?.touched)
+                    ">
+                    <div *ngIf="
+                        activityForm.get('pastVideoUrl')?.hasError('trimError');
+                        else requiredError
+                      ">
+                      {{
+                      activityForm.get("pastVideoUrl")?.errors?.trimError
+                      ?.value
+                      }}
+                    </div>
+                    <ng-template #requiredError>
+                      <ng-container *ngIf="
+                          activityForm.get('pastVideoUrl')?.errors?.required
+                        ">
+                        Past video url required
+                      </ng-container>
+                    </ng-template>
+                  </mat-error>
+                  <mat-form-field appearance="outline" *ngIf="!hidePastUrlCaption">
+                    <mat-label>Caption</mat-label>
+                    <input matInput formControlName="pastVideoCaption" placeholder="Placeholder" />
+                    <mat-error *ngIf="
+                        activityForm.get('pastVideoCaption')?.invalid &&
+                        (activityForm.get('pastVideoCaption')?.dirty ||
+                          activityForm.get('pastVideoCaption')?.touched) &&
+                        activityForm.get('pastVideoCaption')?.errors?.required
+                      ">
+                      Caption required.
+                    </mat-error>
+                    <mat-error *ngIf="
+                        activityForm.get('pastVideoCaption')?.errors?.maxlength
+                      ">Caption can be max 40 characters long.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--item-content-->
+            </div>
+            <!--item-inner-->
+          </div>
+          <!--item-->
+        </div>
+      </div>
+      <div class="col-12 col-md-6 selected-img">
+        <p>*Maximum file size limit is 5MB</p>
+        <p>*Caption size must be small and upto 40 characters</p>
+        <div class="choose-img">
+          <div class="answers" formArrayName="pastVideo" data-toggle="modal" data-target="#exampleModal"
+            *ngFor="let preview of pastVideos?.controls; let i = index">
+            <div [formGroupName]="i">
+              <label class="answer">
+                {{ preview.get("format")?.value }}
+                <video [src]="preview.get('url')?.value" *ngIf="
+                    preview.get('format')?.value === 'video' &&
+                    preview.get('url')?.value
+                  " controls class="preview_video"></video>
+                <div class="close">
+                  <img src="assets/images/close.svg" (click)="clearImage(i, 'pastvideo')" />
+                </div>
+              </label>
+              <mat-form-field appearance="outline">
+                <mat-label>Caption </mat-label>
+                <input matInput [value]="preview.get('caption')?.value" formControlName="caption" />
+                <mat-error *ngIf="preview.get('caption')?.errors?.required">
+                  Caption required.
+                </mat-error>
+                <mat-error *ngIf="
+                    preview.get('caption')?.errors?.maxlength?.requiredLength
+                  ">
+                  Caption can be max 40 characters long.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <hr />
+    <!-- past videos upload section end -->
+    <!-- -------testimonials start---------------- -->
+    <div class="mt-4 testimonials">
+      <h3 class="m-0">Testimonial from Past activity</h3>
+      <div class="row">
+        <div class="col-12 col-md-6 mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="testimonialPersonName" />
+            <mat-error *ngIf="
+                activityForm.get('testimonialPersonName')?.invalid &&
+                (activityForm.get('testimonialPersonName')?.dirty ||
+                  activityForm.get('testimonialPersonName')?.touched)
+              ">
+              Testimonial person name required
+            </mat-error>
+            <mat-error *ngIf="
+                activityForm.get('testimonialPersonName')?.hasError('trimError')
+              ">
+              {{
+              activityForm.get("testimonialPersonName")?.errors?.trimError
+              ?.value
+              }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 mb-3">
+          <label class="m-0 p-0">Rating</label>
+          <div class="rating-wrapper">
+            <app-star-rating formControlName="rating"></app-star-rating>
+            <mat-error *ngIf="
+                activityForm.get('rating')?.invalid &&
+                (activityForm.get('rating')?.dirty ||
+                  activityForm.get('rating')?.touched)
+              ">
+              Rating required
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-12 col-md-8 mb-3">
+          <mat-form-field appearance="outline">
+            <textarea matInput placeholder="Testimonial Detail Description" formControlName="testimonial"
+              maxlength="{{contentMaxLength}}"></textarea>
+            <mat-error *ngIf="
+                activityForm.get('testimonial')?.invalid &&
+                (activityForm.get('testimonial')?.dirty ||
+                  activityForm.get('testimonial')?.touched)
+              ">
+              Testimonial description required
+            </mat-error>
+            <mat-error *ngIf="activityForm.get('testimonial')?.hasError('trimError')">
+              {{ activityForm.get("testimonial")?.errors?.trimError?.value }}
+            </mat-error>
+          </mat-form-field>
+          <div class="testimonial-label-limit-sec">
+            <h5>*Max {{contentMaxLength}} characters.</h5>
+            <h5>{{contentMaxLength - activityForm.get('testimonial')?.value?.length}}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- -------testimonials end---------------- -->
+
+    <div class="col-12 col-md-10 mb-3">
+      <h3 class="mb-2">Financial Info</h3>
+      <div class="row" formGroupName="activityFinancialDTO">
+        <div class="col-12 col-md-6 mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Material/Campaigning/Creative Expense</mat-label>
+            <input matInput formControlName="materialOrCreativeExpense" />
+            <mat-error *ngIf="
+                activityForm.get(
+                  'activityFinancialDTO.materialOrCreativeExpense'
+                )?.errors?.required &&
+                (activityForm.get(
+                  'activityFinancialDTO.materialOrCreativeExpense'
+                )?.dirty ||
+                  activityForm.get(
+                    'activityFinancialDTO.materialOrCreativeExpense'
+                  )?.touched)
+              ">
+              Material/Campaigning/Creative expense required
+            </mat-error>
+            <mat-error *ngIf="
+                activityForm.get(
+                  'activityFinancialDTO.materialOrCreativeExpense'
+                )?.errors?.pattern &&
+                (activityForm.get(
+                  'activityFinancialDTO.materialOrCreativeExpense'
+                )?.dirty ||
+                  activityForm.get(
+                    'activityFinancialDTO.materialOrCreativeExpense'
+                  )?.touched)
+              ">
+              Only amount values are accepted
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Actual Material/Campaigning/Creative Expense</mat-label>
+            <input matInput formControlName="actualMaterialExpense" />
+            <mat-error *ngIf="
+                activityForm.get('activityFinancialDTO.actualMaterialExpense')
+                  ?.errors?.required &&
+                (activityForm.get('activityFinancialDTO.actualMaterialExpense')
+                  ?.dirty ||
+                  activityForm.get('activityFinancialDTO.actualMaterialExpense')
+                    ?.touched)
+              ">
+              Actual Material expense required
+            </mat-error>
+            <mat-error *ngIf="
+                activityForm.get('activityFinancialDTO.actualMaterialExpense')
+                  ?.errors?.pattern &&
+                (activityForm.get('activityFinancialDTO.actualMaterialExpense')
+                  ?.dirty ||
+                  activityForm.get('activityFinancialDTO.actualMaterialExpense')
+                    ?.touched)
+              ">
+              Only amount values are accepted
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Logistic Expense</mat-label>
+            <input matInput formControlName="logisticExpense" />
+            <mat-error *ngIf="
+                activityForm.get('activityFinancialDTO.logisticExpense')?.errors
+                  ?.required &&
+                (activityForm.get('activityFinancialDTO.logisticExpense')
+                  ?.dirty ||
+                  activityForm.get('activityFinancialDTO.logisticExpense')
+                    ?.touched)
+              ">
+              Logistic Expense required
+            </mat-error>
+            <mat-error *ngIf="
+                activityForm.get('activityFinancialDTO.logisticExpense')?.errors
+                  ?.pattern &&
+                (activityForm.get('activityFinancialDTO.logisticExpense')
+                  ?.dirty ||
+                  activityForm.get('activityFinancialDTO.logisticExpense')
+                    ?.touched)
+              ">
+              Only amount values are accepted
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Actual Logistic Expense </mat-label>
+            <input matInput formControlName="actualLogisticExpense" />
+            <mat-error *ngIf="
+                activityForm.get('activityFinancialDTO.actualLogisticExpense')
+                  ?.errors?.required &&
+                (activityForm.get('activityFinancialDTO.actualLogisticExpense')
+                  ?.dirty ||
+                  activityForm.get('activityFinancialDTO.actualLogisticExpense')
+                    ?.touched)
+              ">
+              Actual Logistic Expense required
+            </mat-error>
+            <mat-error *ngIf="
+                activityForm.get('activityFinancialDTO.actualLogisticExpense')
+                  ?.errors?.pattern &&
+                (activityForm.get('activityFinancialDTO.actualLogisticExpense')
+                  ?.dirty ||
+                  activityForm.get('activityFinancialDTO.actualLogisticExpense')
+                    ?.touched)
+              ">
+              Only amount values are accepted
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Gratification Expense</mat-label>
+            <input matInput formControlName="gratificationExpense" />
+            <mat-error *ngIf="
+                activityForm.get('activityFinancialDTO.gratificationExpense')
+                  ?.errors?.required &&
+                (activityForm.get('activityFinancialDTO.gratificationExpense')
+                  ?.dirty ||
+                  activityForm.get('activityFinancialDTO.gratificationExpense')
+                    ?.touched)
+              ">
+              Gratification Expense required
+            </mat-error>
+            <mat-error *ngIf="
+                activityForm.get('activityFinancialDTO.gratificationExpense')
+                  ?.errors?.pattern &&
+                (activityForm.get('activityFinancialDTO.gratificationExpense')
+                  ?.dirty ||
+                  activityForm.get('activityFinancialDTO.gratificationExpense')
+                    ?.touched)
+              ">
+              Only amount values are accepted
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Actual Gratification Expense </mat-label>
+            <input matInput formControlName="actualGratificationExpense" />
+            <mat-error *ngIf="
+                activityForm.get(
+                  'activityFinancialDTO.actualGratificationExpense'
+                )?.errors?.required &&
+                (activityForm.get(
+                  'activityFinancialDTO.actualGratificationExpense'
+                )?.dirty ||
+                  activityForm.get(
+                    'activityFinancialDTO.actualGratificationExpense'
+                  )?.touched)
+              ">
+              Actual Gratification Expense required
+            </mat-error>
+            <mat-error *ngIf="
+                activityForm.get(
+                  'activityFinancialDTO.actualGratificationExpense'
+                )?.errors?.pattern &&
+                (activityForm.get(
+                  'activityFinancialDTO.actualGratificationExpense'
+                )?.dirty ||
+                  activityForm.get(
+                    'activityFinancialDTO.actualGratificationExpense'
+                  )?.touched)
+              ">
+              Only amount values are accepted
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-6 mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Other </mat-label>
+            <input matInput formControlName="otherExpense" />
+            <mat-error *ngIf="
+                activityForm.get('activityFinancialDTO.otherExpense')?.errors
+                  ?.required &&
+                (activityForm.get('activityFinancialDTO.otherExpense')?.dirty ||
+                  activityForm.get('activityFinancialDTO.otherExpense')
+                    ?.touched)
+              ">
+              Other Expense required
+            </mat-error>
+            <mat-error *ngIf="
+                activityForm.get('activityFinancialDTO.otherExpense')?.errors
+                  ?.pattern &&
+                (activityForm.get('activityFinancialDTO.otherExpense')?.dirty ||
+                  activityForm.get('activityFinancialDTO.otherExpense')
+                    ?.touched)
+              ">
+              Only amount values are accepted
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Actual Other </mat-label>
+            <input matInput formControlName="actualOtherExpense" />
+            <mat-error *ngIf="
+                activityForm.get('activityFinancialDTO.actualOtherExpense')
+                  ?.errors?.required &&
+                (activityForm.get('activityFinancialDTO.actualOtherExpense')
+                  ?.dirty ||
+                  activityForm.get('activityFinancialDTO.actualOtherExpense')
+                    ?.touched)
+              ">
+              Actual Other Expense required
+            </mat-error>
+            <mat-error *ngIf="
+                activityForm.get('activityFinancialDTO.actualOtherExpense')
+                  ?.errors?.pattern &&
+                (activityForm.get('activityFinancialDTO.actualOtherExpense')
+                  ?.dirty ||
+                  activityForm.get('activityFinancialDTO.actualOtherExpense')
+                    ?.touched)
+              ">
+              Only amount values are accepted
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="footer-btn">
+  <button class="btn btn-light-1" (click)="activityPost('add')" *ngIf="!isEditAfterCreate && !isEditMode">
+    Create
+  </button>
+  <button class="btn btn-light-1" (click)="activityPost('edit')" *ngIf="isEditAfterCreate || isEditMode">
+    update
+  </button>
+  <button class="btn btn-grey" *ngIf="isEditAfterCreate" (click)="goToActivityDetail()">
+    Preview
+  </button>
+  <button class="btn btn-red" *ngIf="isEditAfterCreate" (click)="activityPost('publish')">
+    Publish
+  </button>
+</div>

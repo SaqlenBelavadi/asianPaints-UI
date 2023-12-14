@@ -1,0 +1,225 @@
+<carousel class="ap_home_banner">
+  <ng-container *ngFor="let image of bannerImages">
+    <slide>
+      <img
+        [src]="image.bannerPictureLocation"
+        alt="Banner slides"
+        style="display: block; width: 100%"
+      />
+    </slide>
+  </ng-container>
+</carousel>
+
+<section class="leader_talk">
+  <div class="container">
+    <carousel class="leader_msg">
+      <ng-container *ngFor="let data of leadersData">
+        <slide>
+          <div class="row">
+            <div class="col-12 col-md-2 profile_wrap">
+              <div class="img-box">
+                <img [src]="data.leaderPictureLocation" />
+              </div>
+            </div>
+            <div class="col-12 col-md-10">
+              <div class="msg_card">
+                <h2>Leaders Talk</h2>
+                <div class="content-msg">
+                  <p class="description" [innerHTML]="data.description"></p>
+                  <h5>
+                    <div class="name" [innerHTML]="data.leaderName"></div>
+                  </h5>
+                  <h6>
+                    <div
+                      class="designAndLoc"
+                      [innerHTML]="data.designation"
+                    ></div>
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </slide>
+      </ng-container>
+    </carousel>
+  </div>
+</section>
+
+<section class="voice_of_chance">
+  <div class="container">
+    <h2>Voices of Change</h2>
+    <p>For Your Remarkable Contributions</p>
+    <swiper-container
+      class="mySwiper v_o_c"
+      space-between="30"
+      slides-per-view="3"
+      navigation="true"
+    >
+      <ng-container *ngFor="let voc of voiceOfChange; let i = index">
+        <swiper-slide>
+          <div class="card">
+            <h2 class="speaksType">{{ voc.speaksType }}</h2>
+            <h3 class="personName" [innerHTML]="voc.personName"></h3>
+            <p
+              class="designationOrInfo"
+              [innerHTML]="voc.designationOrInfo"
+            ></p>
+            <div class="img-box">
+              <img [src]="voc.vocPictureLocation" />
+              <div class="play" [ngClass]="isAudioPlaying && currentAudioIndex === i ? 'active' : ''">
+                <audio controls (play)="toggleAudio(i)" (pause)="toggleAudio(i)">
+                  <source [src]="voc.vocAudioLocation" type="audio/mp3" />
+                </audio>
+              </div>
+            </div>
+          </div>
+        </swiper-slide>
+      </ng-container>
+    </swiper-container>
+  </div>
+</section>
+
+<section class="vdo_wrap">
+  <div class="container">
+    <div class="vdo-box">
+      <app-video-upload></app-video-upload>
+    </div>
+  </div>
+</section>
+
+<section class="ap_count_box">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-7">
+        <h1>More people. More Impact.</h1>
+        <div class="col-12">
+          <div class="count_wrap">
+            <div class="count_box">
+              <h2 style="color: #ee4238">{{ numberOfVolunteers }}</h2>
+              <p>No. of Volunteers</p>
+            </div>
+            <div class="count_box">
+              <h2 style="color: #388560">{{ totalHoursVolunteering }}</h2>
+              <p>No. of Volunteering Hours</p>
+            </div>
+            <div class="count_box">
+              <h2 style="color: #aa82d8">{{ totalNoOfActivities }}</h2>
+              <p>No. of Activities</p>
+            </div>
+            <div class="count_box">
+              <h2 style="color: #ffd400">{{ enrolledVsParticipated }}</h2>
+              <p>% of Participation</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-5 count-img-wrap">
+        <span><img src="../../../../assets/images/homepage/bubble.png" /></span>
+        <img src="../../../../assets/images/homepage/ap_girl.png" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="activity_sec">
+  <div class="container">
+    <div class="head-box">
+      <h1 class="title">Past Volunteering Activities</h1>
+    </div>
+
+    <div class="grid--content">
+      <div class="column--wrapper">
+        <ng-container *ngFor="let act of uniqueActivity; let i = index">
+          <div class="post--item"  *ngIf="i < 6 && i % 2 === 0">
+            <div class="activity_card">
+              <img [src]="act.image" />
+              <div class="content-box">
+                <h1>{{ act.themeName }}</h1>
+                <h2>{{ act.locations }}</h2>
+                <div class="dateandtime">
+                  <p>
+                    <span class="material-symbols-outlined">date_range</span
+                    >{{ act.startDate }} - {{ act.endDate }}
+                  </p>
+                  <p>
+                    <span class="material-symbols-outlined">schedule</span
+                    >{{ act.time }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="post--item" *ngIf="i < 6 && i % 2 != 0">
+            <div class="activity_card large">
+              <img [src]="act.image" />
+              <div class="content-box">
+                <h1>{{ act.themeName }}</h1>
+                <h2>{{ act.locations }}</h2>
+                <div class="dateandtime">
+                  <p>
+                    <span class="material-symbols-outlined">date_range</span
+                    >{{ act.startDate }} - {{ act.endDate }}
+                  </p>
+                  <p>
+                    <span class="material-symbols-outlined">schedule</span
+                    >{{ act.time }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="container tc">
+    <button (click)="showMore()">Show More</button>
+  </div>
+
+</section>
+
+<section class="testimonials">
+  <div class="container">
+    <div class="head-box">
+      <h1 class="title">TESTIMONIAL</h1>
+    </div>
+
+    <swiper-container
+      class="mySwiper v_o_c"
+      space-between="30"
+      slides-per-view="2"
+      pagination="true"
+      pagination-clickable="true"
+    >
+      <ng-container *ngFor="let data of testimonialData">
+        <swiper-slide>
+          <div class="testimonial_card">
+            <div class="profile-img">
+              <img [src]="data.testimonialPictureLocation" />
+            </div>
+            <h5 [innerHTML]="data.testimonialName"></h5>
+            <h6 [innerHTML]="data.designationAndLocation"></h6>
+            <p [innerHTML]="data.description"></p>
+          </div>
+        </swiper-slide>
+      </ng-container>
+    </swiper-container>
+  </div>
+</section>
+
+<section class="logos">
+  <div class="container">
+    <div class="head-box">
+      <h1 class="title">Our Partners</h1>
+    </div>
+    <swiper-container
+      class="mySwiper logos_slider"
+      space-between="10"
+      slides-per-view="6"
+    >
+      <ng-container *ngFor="let image of partnersLogoLocation">
+        <swiper-slide><img [src]="image.partnersLogoLocation" /></swiper-slide>
+      </ng-container>
+    </swiper-container>
+  </div>
+</section>

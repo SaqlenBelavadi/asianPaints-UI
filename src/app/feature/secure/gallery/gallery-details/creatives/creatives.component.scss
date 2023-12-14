@@ -1,0 +1,19 @@
+@import "../gallery-details.component.scss";
+.btn {
+  min-height: 41px;
+  margin-top: -7px;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 10px;
+  }
+
+  img {
+    margin-right: 5px;
+  }
+}
+.back-btn {
+  margin-bottom: 15px;
+  color: #212529 !important;
+  background-color: transparent !important;
+  border-color: #ffffff !important;
+  padding: 0 !important
+}

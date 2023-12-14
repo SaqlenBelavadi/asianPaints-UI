@@ -1,0 +1,100 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.overlay-side-panel {
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+
+        &.overlay-style-transparent {
+            background: transparent;
+        }
+
+        &.overlay-style-dim-dark {
+            background: rgba(#000, 0.3);
+        }
+
+        &.overlay-style-dim-light {
+            background: rgba(#FFF, 0.5);
+        }
+    }
+
+    .side-panel {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        // width:950px;
+        margin-right: 0;
+        background: var(--sec-bg-1);
+        overflow-y: auto;
+        transition: margin-right 0.3s;
+        z-index: 1000;
+        
+        @include box-shadow;
+
+        .side-panel-header {
+            border-bottom: 1px solid #dee2e6;
+            padding: 15px 25px;
+            h2{
+                margin: 0px;
+            }
+        }
+
+        // .content {
+        //     height: calc(100vh - 140px);
+        //     padding: 15px 25px;
+        //     border-radius: var(--border-round);
+        //     overflow-y: auto;
+        // }
+
+        .close {
+           
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            line-height: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+
+            span {
+                cursor: pointer;
+                color: #000;
+                background: #e5e5e5;
+                padding: 0px 10px;
+                border-radius: 10px;
+                &:hover {
+                    color: #292929;
+                }
+            }
+        }
+    }
+
+    &.collapsed {
+        .side-panel {
+            margin-right: -950px;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+     .overlay-side-panel {
+        .side-panel {
+            width: 100% !important;
+        }
+    }
+}
+
+// .footer-btn{
+//   display: flex;
+//   justify-content: flex-end;
+//   padding: 20px 25px 0px 25px;
+//   border-top: 1px solid #EE4238;
+//   .btn{
+//     margin-right: 10px;
+//   }
+// }

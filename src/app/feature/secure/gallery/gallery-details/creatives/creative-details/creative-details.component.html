@@ -1,0 +1,198 @@
+<div>
+  <div class="row">
+    <h1>{{ tagName }}</h1>
+    <section class="check-section mb-3">
+      <div class="select-all">
+        <mat-checkbox class="example-margin" (change)="selectAllImages(tagName)"
+          >Select All</mat-checkbox
+        >
+      </div>
+
+      <div class="twobtn-group">
+        <form class="example-form">
+          <mat-form-field class="m-0 p-0" appearance="outline">
+            <mat-label>Search</mat-label>
+
+            <div class="flbx-stretch">
+              <input
+                type="text"
+                matInput
+                placeholder="Search by image name"
+                [formControl]="searchControl"
+                (keyup.enter)="searchTags()"
+                (change)="onChangeState()"
+              />
+              <span class="tb-search-ico">
+                <mat-icon
+                  class="cancel"
+                  matSuffix
+                  (click)="closeSearch()"
+                  *ngIf="searchControl?.value"
+                  >cancel</mat-icon
+                >
+                <mat-icon matSuffix (click)="searchTags()">search</mat-icon>
+              </span>
+            </div>
+          </mat-form-field>
+        </form>
+        <button
+          type="button"
+          class="btn btn-grey"
+          [disabled]="!enableOrDisableBtn"
+          (click)="downloadImages()"
+        >
+          <img src="assets/images/download.svg" alt="" />
+          Download
+        </button>
+      </div>
+    </section>
+    <ng-container *ngIf="pagedItems; else noData">
+      <ng-container
+        *ngIf="pagedItems[tagName]?.images.length > 0"
+        [formGroup]="tagForm"
+      >
+        <div
+          class="col-12 col-sm-3 mb-3"
+          *ngFor="let image of imageFormArray.controls; let i = index"
+          formArrayName="images"
+        >
+          <div class="all-activity-card">
+            <ng-container
+              *ngIf="
+                isImageFile(pagedItems[tagName]?.images[i]?.imageName);
+                else checkForDoc
+              "
+            >
+              <img
+                [src]="pagedItems[tagName]?.images[i]?.imageUrl"
+                class="activity-img"
+              />
+            </ng-container>
+            <ng-template #checkForDoc>
+              <ng-container
+                *ngIf="
+                  isDoc(pagedItems[tagName]?.images[i]?.imageName);
+                  else checForPdf
+                "
+              >
+                <img
+                  src="assets/images/creatives/doc.svg"
+                  class="activity-img"
+                />
+              </ng-container>
+            </ng-template>
+            <ng-template #checForPdf>
+              <ng-container
+                *ngIf="
+                  isPdf(pagedItems[tagName]?.images[i]?.imageName);
+                  else otherFile
+                "
+              >
+                <img
+                  src="assets/images/creatives/pdf.svg"
+                  class="activity-img"
+                />
+              </ng-container>
+            </ng-template>
+            <ng-template #otherFile>
+              <img
+                src="assets/images/creatives/file.svg"
+                class="activity-img"
+              />
+            </ng-template>
+            <div class="overlay-sec">
+              <section class="check-section">
+                <mat-checkbox
+                  [formControlName]="i"
+                  class="example-margin"
+                ></mat-checkbox>
+              </section>
+            </div>
+
+            <div
+              class="all-activity-card-content d-flex align-items-center justify-content-between py-2 px-2"
+            >
+              <h4 class="d-flex m-0" title="{{ pagedItems[tagName]?.images[i]?.imageName }}">
+                {{ pagedItems[tagName]?.images[i]?.imageName }}
+              </h4>
+              <span
+                ><img
+                  src="assets/images/download.svg"
+                  alt=""
+                  (click)="downloadSingleImage(pagedItems[tagName]?.images[i])"
+              /></span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-template #noData>
+      <div class="document-listing">
+        <div class="no-data-box">
+          <div class="no-data">
+            <img src="assets\images\activities\nodata.png" alt="no data" />
+            <h4>No Records to show</h4>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- <div class="col-12 col-sm-3">
+      <div class="all-activity-card">
+        <img
+          src="assets\images\activities\activity-d1.png"
+          class="activity-img"
+          alt=""
+        />
+        <div
+          class="all-activity-card-content d-flex align-items-center justify-content-between py-2 px-2"
+        >
+          <h4 class="d-flex m-0">Activity Tag</h4>
+          <span
+            ><img src="assets/images/download.svg" alt=""
+          /></span>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-3">
+      <div class="all-activity-card">
+        <img
+          src="assets\images\activities\activity-d1.png"
+          class="activity-img"
+          alt=""
+        />
+        <div
+          class="all-activity-card-content d-flex align-items-center justify-content-between py-2 px-2"
+        >
+          <h4 class="d-flex m-0">Activity Tag</h4>
+          <span
+            ><img src="assets/images/download.svg" alt=""
+          /></span>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-3">
+      <div class="all-activity-card">
+        <img
+          src="assets\images\activities\activity-d1.png"
+          class="activity-img"
+          alt=""
+        />
+        <div
+          class="all-activity-card-content d-flex align-items-center justify-content-between py-2 px-2"
+        >
+          <h4 class="d-flex m-0">Activity Tag</h4>
+          <span
+            ><img src="assets/images/download.svg" alt=""
+          /></span>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  <app-pagination
+    (pageChange)="onPageChange($event)"
+    [page]="currentPage"
+    [pageSize]="pageLimit"
+    [totalItems]="totalItems"
+  ></app-pagination>
+</div>

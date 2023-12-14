@@ -1,0 +1,9 @@
+<svg id="download-icon" xmlns="http://www.w3.org/2000/svg" width="25.661" height="25.661" viewBox="0 0 25.661 25.661">
+  <g id="Group_80362" data-name="Group 80362" transform="translate(537.831 9245.83)">
+    <g id="Ellipse_1334" data-name="Ellipse 1334" transform="translate(-537.831 -9245.83)" fill="rgba(79,49,115,0.19)" stroke="#5d417d" stroke-width="1">
+      <circle cx="12.831" cy="12.831" r="12.831" stroke="none"/>
+      <circle cx="12.831" cy="12.831" r="12.331" fill="none"/>
+    </g>
+    <path id="download_FILL0_wght400_GRAD0_opsz48_1_" data-name="download_FILL0_wght400_GRAD0_opsz48 (1)" d="M9.093,19.661A1.121,1.121,0,0,1,8,18.568V15.963H9.093v2.606h9.475V15.963h1.093v2.606a1.121,1.121,0,0,1-1.093,1.093Zm4.737-2.788-3.517-3.517.783-.783,2.187,2.187V8h1.093v6.76l2.187-2.187.783.783Z" transform="translate(-538.831 -9246.83)" fill="#5d417d"/>
+  </g>
+</svg>

@@ -1,0 +1,81 @@
+<div class="closed__wrapper ">
+    <div class="notification__head">
+        <div class="notification__count">
+            <h3 class="closed__heading">Create Section</h3>
+        </div>
+
+    </div>
+    <div class="chat__element ">
+        <div class="form__container">
+            <div *ngIf="data.section" class="section__add">
+                <mat-form-field appearance="outline">
+                    <mat-label>Add New Section</mat-label>
+                    <input matInput placeholder="Enter Section Name">
+                </mat-form-field>
+            </div>
+
+
+            <!-- section part end -->
+
+
+            <div class="section__option">
+                <span class="section__optiontxt"> Add question and answer </span>
+                <span (click)="showandHide()" *ngIf="data.section" class="section__optional status__icon">Optional</span>
+            </div>
+
+
+
+            <div class="section__openWrap" [hidden]="hideBottom">
+                <div class="section__add">
+                    <div class="section__formwrapp">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Add Question</mat-label>
+                            <input matInput placeholder="Enter Question">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="add__iocn">
+                        <div class="btn btn__addItem ">
+                            <img src="assets/images/questionSquare.svg" alt="">
+                            <span class="add-icon">
+                                <mat-icon>add_circle</mat-icon>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="section__add">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Enter Answer</mat-label>
+                        <textarea matInput placeholder="Answer"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="section__add">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Add Keywords</mat-label>
+                        <input matInput placeholder="Enter Keywords">
+                    </mat-form-field>
+                    <!-- <div class="add__iocn">
+                        <div  class="btn btn__addItem ">                    
+                           
+                            <span class="add-icon"><mat-icon>add_circle</mat-icon> </span>   
+                        </div>
+                    </div> -->
+                </div>
+                <div class="quickrpl__container">
+                    <div  class="btn quickrpl__elements">Keyword-1 <mat-icon>close</mat-icon></div>
+                    <div  class="btn quickrpl__elements">Keyword-2 <mat-icon>close</mat-icon></div>
+                    <div  class="btn quickrpl__elements">Keyword-3 <mat-icon>close</mat-icon></div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="notification__container">
+        <div mat-dialog-close class="btn btn__decline">Cancel</div>
+        <div class="btn btn__accept">Submit</div>
+
+    </div>
+</div>

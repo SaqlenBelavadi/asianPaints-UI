@@ -1,0 +1,24 @@
+<!-- promotion banner -->
+
+<div class="promotion-popup">
+  <img [src]="data?.data?.images[0]?.imageUrl" alt="" />
+  <div class="close" mat-dialog-close>
+    <img src="assets/images/close-btn.svg" />
+  </div>
+  <div
+    class="promo-footer"
+    (click)="goToActivityDetail(data?.data)"
+  >
+    <h6>{{ data?.data?.promotionActivity }}</h6>
+    <div class="d-flex align-items-center">
+      <p>
+        <mat-icon>calendar_today</mat-icon
+        >{{ returnDateFormated(data?.data?.startDate) }} -
+        {{ returnDateFormated(data?.data?.endDate) }}
+      </p>
+      <p class="time"><mat-icon>access_time</mat-icon>{{ time }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- promotion banner -->

@@ -1,0 +1,35 @@
+@import "../gallery-details//gallery-details.component.scss";
+
+.fdbk-wrapper {
+  border: 1px solid #dcdcdc;
+  .btn-grey {
+    padding: 3px !important;
+    line-height: 0.5 !important;
+  }
+}
+.fdbk-wrapper {
+  padding: 15px;
+  height: 100%;
+}
+.uname {
+  width: 35px;
+  height: 35px;
+  background-color: #5d417d;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+.fb-user-avtar {
+  align-items: flex-start;
+}
+.flbx-stretch {
+  align-items: baseline;
+}
+
+.disableDiv {
+  pointer-events: none;
+  opacity: 1;
+}

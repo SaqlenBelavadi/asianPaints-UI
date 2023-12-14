@@ -1,0 +1,74 @@
+.landingpage_cms{
+    background: #E4E4E4;
+    min-height: calc(100vh - 210px);
+    position: relative;
+}
+
+.sidemenu_card {
+    width: 230px;
+    background: #fff;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0;
+    transition: .3s all;
+
+    ul{
+        padding: 0;
+        margin: 0;
+
+        li{
+            list-style: none;
+            a{
+                color: #A5A5A5;
+                font-family: Poppins;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+                display: block;
+                border-bottom: 1px solid #D7D7D7;
+                background: #FFF;
+                padding: 13px 0;
+                padding-left: 10px;
+                cursor: pointer;
+                transition: .3s all;
+                &:hover{
+                    transition: .3s all;
+                    border-bottom: 1px solid #5D417D;
+                    background: #5D417D;
+                    color: #fff !important;
+                }
+                
+            }
+            a.active{
+                    transition: .3s all;
+                    border-bottom: 1px solid #5D417D;
+                    background: #5D417D;
+                    color: #fff !important;
+            }
+
+        }
+    }
+}
+
+.content-wrapper{
+    padding-left: 245px;
+}
+
+
+.landingpage_cms.menu-deactive .sidemenu_card {
+    transition: .3s all;
+    margin-left: -100%;
+  }
+
+
+  .landingpage_cms.menu-deactive .content-wrapper{
+    padding-left: 15px;
+}
+
+form.ng-pristine{
+    height: 300px;
+    overflow-y: scroll;
+  }

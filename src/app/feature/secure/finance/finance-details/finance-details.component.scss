@@ -1,0 +1,39 @@
+.page__rightColumn {
+
+    // display: flex;
+    // align-items: center;
+    .btn {
+        display: flex;
+        // height: 100%;
+        max-height: 41px;
+        width: max-content;
+
+        @media screen and (max-width:768px) {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+
+        img {
+            margin-right: 5px;
+        }
+    }
+
+    .mat-form-field-wrapper {
+        padding-bottom: 0px !important;
+        margin-bottom: 0px !important;
+    }
+}
+
+table {
+    width: 100%;
+}
+
+.act-name
+{
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}

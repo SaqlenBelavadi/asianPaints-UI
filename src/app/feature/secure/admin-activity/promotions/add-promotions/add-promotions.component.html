@@ -1,0 +1,295 @@
+<div class="cont-inner promotion">
+  <form [formGroup]="promotionForm">
+    <div class="row align-items-center">
+      <div class="col-12 col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Theme </mat-label>
+          <mat-select formControlName="themeName">
+            <mat-option
+              *ngFor="let theme of themeArray"
+              [value]="theme.lovValue"
+              >{{ theme.lovDisplayName }}</mat-option
+            >
+          </mat-select>
+          <mat-error
+            *ngIf="
+              promotionForm.get('themeName')?.invalid &&
+              (promotionForm.get('themeName')?.dirty ||
+                promotionForm.get('themeName')?.touched)
+            "
+          >
+            Theme required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Location</mat-label>
+          <mat-select formControlName="location" multiple>
+            <mat-option
+              *ngFor="let loc of locationArray"
+              [value]="loc.lovValue"
+              >{{ loc.lovDisplayName }}</mat-option
+            >
+          </mat-select>
+          <mat-error
+            *ngIf="
+              promotionForm.get('location')?.invalid &&
+              (promotionForm.get('location')?.dirty ||
+                promotionForm.get('location')?.touched)
+            "
+          >
+            Activity location required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Activity</mat-label>
+          <!-- <mat-select formControlName="activityName" (ngModelChange)="onActivityNameSelection($event)">
+            <mat-option *ngFor="let ac of activityNameArray; let i = index" [value]="i">{{ ac.activityName
+              }}</mat-option>
+          </mat-select> -->
+          <mat-select
+            formControlName="activityName"
+            placeholder="Activities"
+            #singleSelect
+            (selectionChange)="onActivityNameSelection($event)"
+            [attr.disabled]="activityNameArray.length === 0"
+          >
+            <mat-option>
+              <ngx-mat-select-search
+                [formControl]="activityFilterCtrl"
+                [placeholderLabel]="'Search'"
+                [noEntriesFoundLabel]="'Not found'"
+              ></ngx-mat-select-search>
+            </mat-option>
+
+            <mat-option
+              *ngFor="let act of filteredActivities | async; let i = index"
+              [value]="i"
+            >
+              {{ act.activityId + " - " + act.activityName }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              promotionForm.get('activityName')?.invalid &&
+              (promotionForm.get('activityName')?.dirty ||
+                promotionForm.get('activityName')?.touched)
+            "
+          >
+            Activity name required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Promotion Start Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="pickerr"
+            formControlName="startDate"
+            [max]="endMaxDate"
+            [min]="startMinDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerr"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #pickerr></mat-datepicker>
+          <mat-error
+            *ngIf="promotionForm.get('startDate')?.hasError('dateRange')"
+          >
+            Start date must be before end date
+          </mat-error>
+          <mat-error
+            *ngIf="
+              promotionForm.get('startDate')?.invalid &&
+              promotionForm.get('startDate')?.errors?.required &&
+              (promotionForm.get('startDate')?.dirty ||
+                promotionForm.get('startDate')?.touched)
+            "
+          >
+            Start date required
+          </mat-error>
+          <mat-error
+            *ngIf="promotionForm.get('startDate')?.hasError('matDatepickerMax')"
+          >
+            Start date should not be greater than activity end date :
+            {{ endMaxDate | date : "MM/dd/YYYY" }}
+          </mat-error>
+          <mat-error
+            *ngIf="promotionForm.get('startDate')?.hasError('matDatepickerMin')"
+          >
+            Start date should today's date only:
+            {{ startMinDate | date : "MM/dd/YYYY" }}
+          </mat-error>
+          <!-- {{ promotionForm?.errors?.dateRange }} -->
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 col-md-6 mb-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Promotion End Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="endDate"
+            [min]="startMinDate"
+            [max]="endMaxDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error
+            *ngIf="
+              promotionForm.get('endDate')?.invalid &&
+              promotionForm.get('endDate')?.errors?.required &&
+              (promotionForm.get('endDate')?.dirty ||
+                promotionForm.get('endDate')?.touched)
+            "
+          >
+            End date required
+          </mat-error>
+          <mat-error
+            *ngIf="promotionForm.get('endDate')?.hasError('matDatepickerMin')"
+          >
+            End date should not be less than start date :
+            {{ startMinDate | date : "MM/dd/YYYY" }}
+          </mat-error>
+          <!-- <mat-error
+            *ngIf="promotionForm.get('endDate')?.hasError('matDatepickerMax')"
+          >
+            End date should not be greater than activity start date :
+            {{ endMaxDate | date : "MM/dd/YYYY" }}
+          </mat-error> -->
+        </mat-form-field>
+      </div>
+      <div class="row mt-4">
+        <div class="col-lg-5 col-sm-12">
+          <label class="mb-2">Upload Picture</label>
+
+          <div
+            class="item-wrapper one"
+            [ngClass]="{ disableDiv: promotionForm.controls.file.value }"
+          >
+            <div class="item">
+              <div class="item-inner">
+                <div class="item-content">
+                  <div
+                    class="image-upload"
+                    appDrag
+                    (drop)="filesDropped($event)"
+                  >
+                    <label style="cursor: pointer" for="file_upload">
+                      <!-- <img src="" alt="" class="uploaded-image"> -->
+
+                      <div class="h-100">
+                        <div class="dplay-tbl">
+                          <div class="dplay-tbl-cell">
+                            <img
+                              src="assets/images/upload-icon.svg"
+                              alt="upload"
+                            />
+                            <div>
+                              <h3 class="m-0 text-start">
+                                Drag and drop file here
+                              </h3>
+                              <p class="m-0 text-start">Or</p>
+                              <h2 class="m-0 text-start">Browse file</h2>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--upload-content-->
+                      <input
+                        type="file"
+                        id="file_upload"
+                        class="image-input"
+                        data-traget-resolution="image_resolution"
+                        value=""
+                        #fileInput
+                        (change)="onFileSelection($event)"
+                        accept="image/*"
+                      />
+                      <input type="hidden" formControlName="file" />
+                    </label>
+                  </div>
+                </div>
+
+                <!--item-content-->
+              </div>
+              <!--item-inner-->
+            </div>
+            <!--item-->
+          </div>
+        </div>
+        <mat-error
+          *ngIf="
+            promotionForm.get('file')?.invalid &&
+            (promotionForm.get('file')?.dirty ||
+              promotionForm.get('file')?.touched)
+          "
+        >
+          Please select an image .
+        </mat-error>
+        <div class="col-lg-4 col-sm-12">
+          <p>*Image file size limit is 5MB</p>
+          <div class="choose-img mt-3" *ngIf="imagePath">
+            <div class="answers">
+              <div>
+                <label class="answer">
+                  <img [src]="imagePath" class="preview_img" />
+                  <div class="close">
+                    <img src="assets/images/close.svg" (click)="clearImage()" />
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-12">
+          <button
+            class="btn btn-uploaded"
+            *ngIf="isImageUploaded; else uploadbtn"
+          >
+            <img src="assets\images\check-bt.svg" /> Uploaded
+          </button>
+          <ng-template #uploadbtn>
+            <button
+              class="btn btn-red"
+              (click)="uploadPhoto()"
+              [disabled]="isImageUploaded || !promotionForm.controls.file.value"
+            >
+              <img src="assets\images\publish_red.svg" /> Upload
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="footer-btn">
+  <button class="btn btn-light-1" (click)="cancel()">Cancel</button>
+  <button
+    class="btn btn-red"
+    [disabled]="promotionForm.invalid || !isImageUploaded"
+    (click)="submit()"
+    *ngIf="!this.isEdit; else updateMode"
+  >
+    Add
+  </button>
+  <ng-template #updateMode>
+    <button
+      class="btn btn-red"
+      [disabled]="promotionForm.invalid || !isImageUploaded"
+      (click)="submit()"
+    >
+      Update
+    </button>
+  </ng-template>
+</div>

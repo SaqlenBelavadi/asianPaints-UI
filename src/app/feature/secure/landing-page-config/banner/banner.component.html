@@ -1,0 +1,21 @@
+<div class="header-Landing_config">
+  <h1>Manage Banners</h1>
+  <a class="btn-create" (click)="createBanner()">+ Create</a>
+</div>
+
+<div class="content-wrap_cms">
+  <div class="cms_content_box" *ngFor="let banner of bannerData">
+    <div class="first_sec">
+      <div class="title_sec">
+        <div class="img-box"><img [src]="banner?.bannerPictureLocation" /></div>
+        <h2>{{ banner?.imageName }}</h2>
+      </div>
+      <div class="btn_sec">
+        <a class="delete" (click)="deleteBanner(banner?.imageName)"></a>
+        <!-- <a class="edit"></a>
+               <a class="view"></a>
+               <a class="play"></a> -->
+      </div>
+    </div>
+  </div>
+</div>

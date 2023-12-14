@@ -1,0 +1,61 @@
+<mat-form-field appearance="outline" *ngIf="filterName" floatLabel="always">
+  <mat-label>{{ label }}</mat-label>
+  <!-- <img class="filter-icon" src="assets\images\total-hrs.svg" alt="" *ngIf="label === 'Mode'"> -->
+  <img
+    class="filter-icon"
+    src="assets\images\filter-online-icon.svg"
+    alt=""
+    *ngIf="label === 'Mode'"
+  />
+  <img
+    class="filter-icon"
+    src="assets\images\themes-icon.svg"
+    alt=""
+    *ngIf="label === 'Theme'"
+  />
+  <img
+    class="filter-icon"
+    src="assets\images\location-icon.svg"
+    alt=""
+    *ngIf="label === 'Location'"
+  />
+  <img
+    class="filter-icon"
+    src="assets\images\total-hrs.svg"
+    alt=""
+    *ngIf="label === 'Total Hours'"
+  />
+  <mat-select
+    *ngIf="isMultiSelect; else singleSelect"
+    [formControl]="selectMultiCtrl"
+    [multiple]="true"
+    #multiSelect
+  >
+    <mat-option>
+      <ngx-mat-select-search
+        [placeholderLabel]="'Search'"
+        [noEntriesFoundLabel]="'Not found'"
+        [formControl]="selectMultiFilterCtrl"
+      ></ngx-mat-select-search>
+    </mat-option>
+    <mat-option
+      (onSelectionChange)="selectOptions($event)"
+      *ngFor="let value of filteredSelectMulti | async"
+      [value]="value"
+    >
+      {{ value }}
+    </mat-option>
+  </mat-select>
+
+  <ng-template #singleSelect>
+    <mat-select [formControl]="selectMultiCtrl">
+      <mat-option
+        (onSelectionChange)="selectOptions($event)"
+        *ngFor="let value of filteredSelectMulti | async"
+        [value]="value"
+      >
+        {{ value }}
+      </mat-option>
+    </mat-select>
+  </ng-template>
+</mat-form-field>

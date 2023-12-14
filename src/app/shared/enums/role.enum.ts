@@ -1,0 +1,7 @@
+export enum Roles {
+
+ CADMIN='ROLE_CADMIN',
+ ADMIN='ROLE_ADMIN',
+ EMPLOYEE='ROLE_EMPLOYEE',
+ 
+}

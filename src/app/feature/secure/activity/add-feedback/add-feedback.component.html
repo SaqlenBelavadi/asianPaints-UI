@@ -1,0 +1,176 @@
+<div class="cont-inner feedback" [formGroup]="feedbackForm">
+  <p>
+    Image being uploaded by employee stating it will be used by AP for EVP and
+    other promotional things in EVP.
+  </p>
+  <div class="rating mt-3 pb-3">
+    <h3 class="m-0">How would you rate the activity? *</h3>
+    <div class="rating-wrapper">
+      <app-star-rating formControlName="rating"></app-star-rating>
+      <mat-error
+        *ngIf="
+          feedbackForm.get('rating')?.invalid &&
+          (feedbackForm.get('rating')?.dirty ||
+            feedbackForm.get('rating')?.touched)
+        "
+      >
+        Rating required
+      </mat-error>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-12 col-md-6 pt-3">
+      <label class="mb-2">Upload Picture *</label>
+
+      <div class="item-wrapper one">
+        <div class="item">
+          <div class="item-inner">
+            <div class="item-content">
+              <div class="image-upload" appDrag (drop)="filesDropped($event)">
+                <label style="cursor: pointer" for="file_upload">
+                  <!-- <img src="" alt="" class="uploaded-image"> -->
+
+                  <div class="h-100">
+                    <div class="dplay-tbl">
+                      <div class="dplay-tbl-cell">
+                        <img src="assets/images/upload-icon.svg" alt="upload" />
+                        <div>
+                          <h3 class="m-0 text-start">
+                            Drag and drop file here
+                          </h3>
+                          <p class="m-0 text-start">Or</p>
+                          <h2 class="m-0 text-start">Browse file</h2>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--upload-content-->
+                  <input
+                    type="file"
+                    id="file_upload"
+                    class="image-input"
+                    multiple
+                    data-traget-resolution="image_resolution"
+                    value=""
+                    #fileInput
+                    (change)="onFileSelection($event)"
+                    accept=".jpg,.jpeg,.bmp,.png,.wav,.mp3,.mp4,.avi,.mov"
+                  />
+                  <!-- <mat-error *ngIf="feedbackForm.get('images')?.errors?.required">
+                                        Please select an image or video.
+                                    </mat-error> -->
+                </label>
+              </div>
+            </div>
+            <!--item-content-->
+          </div>
+          <!--item-inner-->
+        </div>
+        <!--item-->
+      </div>
+    </div>
+    <div class="col-12 col-md-6 selected-img mt-4">
+      <!-- <p>*Video file size Max 20MB</p> -->
+      <!-- <p>*All images and video files supported</p> -->
+    </div>
+    <div class="row pt-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <h4 (click)="fileInput.click()" class="m-0 pointer">
+          + Add more photos
+        </h4>
+        <button class="btn btn-uploaded" *ngIf="isImageUploaded">
+          <img src="assets\images\check-bt.svg" /> Uploaded
+        </button>
+        <button
+          class="btn btn-red"
+          [disabled]="photosOrVideos.value.length === 0 || disableUploadImgbtn"
+          (click)="uploadPictureOrVideos()"
+          *ngIf="!isImageUploaded"
+        >
+          <img src="assets/images/publish_red.svg" /> Upload
+        </button>
+      </div>
+      <div class="choose-img mt-3 flbx-vac" *ngIf="photosOrVideos.value.length">
+        <div
+          class="answers"
+          formArrayName="images"
+          data-toggle="modal"
+          data-target="#exampleModal"
+          *ngFor="let preview of photosOrVideos?.controls; let i = index"
+        >
+          <div [formGroupName]="i">
+            <label class="answer">
+              <img [src]="preview.get('url')?.value" class="preview_img" />
+              <div class="close">
+                <img src="assets/images/close.svg" (click)="clearImage(i)" />
+              </div>
+            </label>
+          </div>
+        </div>
+        <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+      </div>
+      <p class="mt-2">* Image file size limit is 5MB</p>
+    </div>
+    <h4 class="m-0 pointer">Describe your experience / Feedback</h4>
+    <section>
+      <mat-form-field appearance="outline">
+        <textarea
+          matInput
+          placeholder="write here ..."
+          formControlName="feedback"
+        ></textarea>
+        <mat-error
+          *ngIf="
+            feedbackForm.get('feedback')?.invalid &&
+            (feedbackForm.get('feedback')?.dirty ||
+              feedbackForm.get('feedback')?.touched)
+          "
+        >
+          Need Request for CSR required
+        </mat-error>
+      </mat-form-field>
+    </section>
+  </div>
+</div>
+<div class="footer-btn">
+  <button class="btn btn-light-1" (click)="onCancelClick()">Cancel</button>
+
+  <button
+    class="btn btn-red"
+    (click)="submitFeedback()"
+    [disabled]="feedbackForm.invalid || disableBtn"
+    *ngIf="!isEdit && feedbackForm.valid && isImageUploaded; else updatebtn"
+  >
+    Add
+  </button>
+  <ng-template #updatebtn>
+    <button
+      class="btn btn-red"
+      (click)="submitFeedback()"
+      [disabled]="feedbackForm.invalid || disableBtn"
+      *ngIf="isEdit && isImageUploaded"
+    >
+      Update
+    </button>
+  </ng-template>
+</div>

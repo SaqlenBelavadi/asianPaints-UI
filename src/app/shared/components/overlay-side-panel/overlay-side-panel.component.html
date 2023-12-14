@@ -1,0 +1,21 @@
+<div class="overlay-side-panel" [class.collapsed]="!isPanelVisible">
+    <div class="overlay" [ngClass]="overlayStyle" *ngIf="isPanelVisible" [@fadeInOut] (click)="close()">
+    </div>
+    <div class="side-panel" [ngStyle]="{'width': overlayData?.width+'px'}">
+        <div class="d-flex justify-content-between side-panel-header align-items-center">
+            <h2>{{overlayData?.label}}</h2>
+            <div class="close">
+                <span (click)="close()">&times;</span>
+            </div>
+        </div>
+
+        <div class="content">
+            <ng-container #content></ng-container>
+        </div>
+        <!-- <div class="footer-btn">
+            <button class="btn btn-light-1">Create</button>
+            <button class="btn btn-grey">Preview</button>
+            <button class="btn btn-red">Publish</button>
+        </div> -->
+    </div>
+</div>

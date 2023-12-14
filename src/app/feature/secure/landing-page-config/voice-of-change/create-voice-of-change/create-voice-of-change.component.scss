@@ -1,0 +1,46 @@
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.answer {
+  position: relative;
+  width: 100%;
+}
+
+.answer>img {
+  max-width: 100%;
+  border-radius: 5px;
+  width: 100%;
+  object-fit: cover;
+  height: 100px;
+}
+
+.preview_img {
+  height: 100px;
+  object-fit: cover;
+}
+
+.answers {
+  width: 18%;
+  margin-right: 10px;
+  @media screen and (max-width: 767px) {
+    width: 100% !important;
+  }
+  .flbx-vac {
+    width: 100%;
+  }
+}
+
+.upload {
+  // display: none !important;
+  padding: 20px 0px;
+}
+
+form.ng-pristine{
+  height: 300px;
+  overflow-y: scroll;
+}
+
+

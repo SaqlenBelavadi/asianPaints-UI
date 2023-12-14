@@ -1,0 +1,683 @@
+<app-overlay-side-panel [overlayData]="sideOverlayData"></app-overlay-side-panel>
+<div class="page__wrapper">
+  <section class="content-section" *ngIf="activityDetail">
+    <!-- Section 1 -->
+
+    <div class="container-fluid page__content-block">
+      <!-- slider section -->
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+        <div class="carousel-indicators">
+          <button type="button" *ngFor="let image of activityDetail?.images; let i = index"
+            data-bs-target="#carouselExampleControls" class="{{ i === this.activeImageIndex ? 'active' : '' }}"
+            [attr.data-bs-slide-to]="i"></button>
+        </div>
+        <div class="carousel-inner">
+          <ng-container *ngFor="let image of activityDetail?.images; let i = index">
+            <div class="carousel-item" data-mdb-interval="1000" [ngClass]="{ active: i === this.activeImageIndex }">
+              <div class="banner-bg" [style.background]="'url(' + image.imageUrl + ')'"
+                *ngIf="checkFileFormat(image?.imageName) === fileTypes.IMAGE"></div>
+
+              <video *ngIf="checkFileFormat(image?.imageName) === fileTypes.VIDEO" [src]="image.imageUrl"
+                class="d-block w-100" alt="..." autoplay="autoplay" controls></video>
+
+              <img *ngIf="checkFileFormat(image?.imageName) === fileTypes.IMAGE" [src]="image.imageUrl"
+                class="d-block w-100" alt="..." />
+
+              <div class="carousel-caption d-none d-md-block">
+                <h5>{{ image.caption }}</h5>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <!-- end of slider -->
+
+      <div class="row pt-4">
+        <!-- change to col-lg-9 -->
+        <div class="col-xl-10 col-lg-12">
+          <div class="row">
+            <div class="col-12 flbx-vac">
+              <span class="act-datetime fl-item-neq">{{ returnDate(activityDetail.startDate) }} -
+                {{ returnDate(activityDetail.endDate) }} |
+                {{ activityDetail.timeOfActivity }}
+              </span>
+
+              <span class="badge theme fl-item-neq">{{
+                activityDetail.themeName
+                }}</span><span class="badge mode-online fl-item-neq mb-2 mb-lg-0" *ngIf="
+                  activityDetail.modeOfParticipation === 'Online';
+                  else modetype
+                "><img src="assets\images\activities\online.svg" alt="" />
+                {{ activityDetail.modeOfParticipation }}
+              </span>
+              <ng-template #modetype>
+                <span class="badge mode-onsite fl-item-neq mb-2 mb-lg-0"><img
+                    src="assets\images\activities\onsite-icon.svg" alt="" />
+                  {{ activityDetail.modeOfParticipation }}
+                </span>
+              </ng-template>
+
+              <a href="{{ activityDetail.pastVideoUrl }}" *ngIf="activityDetail.pastVideoUrl" class="activity"
+                target="_blank">
+                {{ activityDetail?.pastVideoCaption || "PAST VIDEO" }}
+              </a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col12 act-title-wrapper">
+              <h2 class="page__heading">
+                {{
+                activityDetail.activityId +
+                " - " +
+                activityDetail.activityName
+                }}
+              </h2>
+            </div>
+          </div>
+          <div class="flbx-vac">
+            <div class="fl-item-neq">
+              <div class="user-list">
+                <div class="user-avatars">
+                  <!-- <span
+                    class="avatar"
+                    *ngFor="let emp of activityDetail?.enrolledEmployees"
+                  >
+                    <img
+                      src="assets\images\activities\avtar1.png"
+                      width="25"
+                      height="25"
+                    />
+                  </span>
+                  <span class="avatar">
+                    <img
+                      src="assets\images\activities\avtar2.png"
+                      width="25"
+                      height="25"
+                    />
+                  </span> -->
+                  <span class="avatar" *ngFor="
+                      let emp of activityDetail?.enrolledEmployees;
+                      let i = index
+                    ">
+                    <span class="user-initials" *ngIf="i < 3">{{
+                      getShortName(emp)
+                      }}</span>
+                  </span>
+                </div>
+                <span *ngIf="activityDetail.enrolledEmployees?.length">{{
+                  activityDetail.enrolledEmployees?.length &&
+                  activityDetail.enrolledEmployees?.length > 3
+                  ? "+" + (activityDetail.enrolledEmployees?.length - 3)
+                  : ""
+                  }}
+                  Enrolled
+                  <a class="view-all" href="javascript:void(0);" [routerLink]="[
+                      '/participation/participation-list',
+                      returnEncrypted(activityDetail.activityUUID),
+                      activityState === 'ONGOING'
+                        ? returnEncrypted('ONGOING')
+                        : activityState === 'UPCOMING'
+                        ? returnEncrypted('UPCOMING')
+                        : returnEncrypted('PAST')
+                    ]" *ngIf="activityDetail.enrolledEmployees?.length">View All</a></span>
+              </div>
+            </div>
+            <div class="part-hours icon-text">
+              <img src="assets\images\activities\clock.svg" alt="" /> Committed
+              Man Hours :
+              {{ returnHousrAndMinShort(activityDetail.timeRequired) }}
+            </div>
+            <div class="prov-bad icon-text">
+              <img src="assets\images\activities\badge.svg" alt="" />{{
+              this.role === roleEnum.EMPLOYEE
+              ? "Badge to Collect"
+              : "Badge to Provide"
+              }}
+              :
+              {{ activityDetail?.badgeToBeProvided === "true" ? "Yes" : "No" }}
+            </div>
+            <div class="ov-rating" *ngIf="!isPreview">
+              {{
+              activityDetail?.averageRating
+              ? activityDetail?.averageRating.toFixed(2)
+              : 0
+              }}
+              <div class="rating-wrapper">
+                <!-- <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star</span>
+                <span class="material-icons">star_border</span>
+                <span class="material-icons">star_border</span> -->
+                <app-star-rating value="{{ activityDetail?.averageRating }}" class="disableDiv"></app-star-rating>
+              </div>
+              <img src="assets\images\activities\info-icon.svg" alt="" data-bs-toggle="tooltip" [matTooltip]="
+                  'The overall rating for an activity is the average of individual ratings given by the users who have participated in the activity.'
+                " [matTooltipPosition]="'above'" data-bs-placement="top" />
+            </div>
+          </div>
+        </div>
+        <!-- change to col-lg-3 -->
+        <div class="col-xl-2 col-lg-12 loc">
+          <div class="row">
+            <div class="col-12" *ngIf="!isPreview && !isHistory">
+              <div class="twobtn-group">
+                <ng-container *ngIf="
+                    role === roleEnum.EMPLOYEE ;
+                    else adminOptions
+                  ">
+                  <button type="button" class="btn btn-red" *ngIf="
+                      activityDetail?.employeeParticipationStatus !==
+                        'Enrolled' &&
+                      activityDetail?.employeeParticipationStatus !==
+                        'Feedback' &&
+                      activityDetail?.employeeParticipationStatus !==
+                        'Participated' &&
+                        activityState !== this.activityStateType.PAST
+                    " (click)="enrollnow(activityDetail)">
+                    Enroll
+                  </button>
+                  <button type="button" class="btn btn-red" (click)="confirmParticipation(activityDetail)" *ngIf="
+                      activityDetail?.employeeParticipationStatus ===
+                        'Enrolled' &&
+                      returnCheckAtivityDates(activityDetail?.startDate) &&
+                      activityDetail?.employeeParticipationStatus !==
+                        'Feedback' &&
+                      activityDetail?.employeeParticipationStatus !==
+                        'Participated'
+                    ">
+                    Confirm Participation
+                  </button>
+                </ng-container>
+                <ng-template #adminOptions>
+                  <button type="button" class="btn btn-red" (click)="publishActivity(activityDetail)"
+                    *ngIf="!activityDetail?.published">
+                    <img src="assets\images\activities\publish_red.svg" alt="" />
+                    Publish
+                  </button>
+
+                  <ng-container *ngIf="
+                      activityState !== this.activityStateType.ONGOING ;
+                      else adminPrivilege
+                    ">
+                    <button type="button" class="btn btn-red" (click)="
+                        deleteActivity(
+                          activityUUID,
+                          activityDetail.activityName
+                        )
+                      ">
+                      <img src="assets\images\activities\delete.svg" alt="" />
+                      Delete
+                    </button>
+                    <button type="button" class="btn btn-grey" (click)="editActivity(activityDetail, 'normal')">
+                      <img src="assets\images\activities\edit.svg" alt="" />
+                      Edit
+                    </button>
+                  </ng-container>
+
+                  <ng-template #adminPrivilege>
+                    <button *ngIf="
+                        role === roleEnum.CADMIN &&
+                        activityState === this.activityStateType.PAST
+                      " type="button" class="btn btn-grey" (click)="editActivity(activityDetail, 'past')">
+                      <img src="assets\images\activities\edit.svg" alt="" />
+                      Edit
+                    </button>
+                  </ng-template>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-12">
+          <div class="act-loc icon-text">
+            <span><img src="assets\images\location-pin.svg" alt="" /><strong>
+                Location</strong>
+              : {{ activityDetail.activityLocation }}</span>
+            <span><strong>Village</strong> :
+              {{ activityDetail.activityPlace }}</span>
+          </div>
+
+          <!-- <div class="act-location">
+            <h3>{{ activityDetail.activityLocation }}</h3>
+            <p>{{ activityDetail.activityPlace }}</p>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <!-- end of section 1 -->
+
+    <!-- Section 2 -->
+
+    <div class="container-fluid page__content-block mt-4 act-details-block">
+      <h3>Objective</h3>
+      <p>{{ activityDetail.objectiveActivity }}</p>
+      <div class="tag icon-text">
+        <mat-icon>bookmark_border</mat-icon> Activity Tag :
+        <span class="badge mode-online fl-item-neq mb-2 mb-lg-0 ms-3">
+          {{ activityDetail.tagName }}
+        </span>
+      </div>
+
+      <hr />
+      <h3>Details</h3>
+      <p [innerHTML]="sanitizeHtml(activityDetail.completeDescription)"></p>
+      <hr />
+      <h3>Instructions</h3>
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="title-do icon-text">
+            <img src="assets\images\activities\dos-icon.svg" alt="" /> Do s
+          </h3>
+          <span [innerHTML]="sanitizeHtml(activityDetail.dosInstruction)"></span>
+        </div>
+        <div class="col-md-6">
+          <h3 class="title-dont icon-text">
+            <img src="assets\images\activities\donts-icon.svg" alt="" /> Don't s
+          </h3>
+          <p [innerHTML]="sanitizeHtml(activityDetail.dontInstruction)"></p>
+        </div>
+      </div>
+
+      <hr />
+      <ng-container *ngIf="role !== roleEnum.EMPLOYEE">
+        <h3>Financial Info</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <table class="table table-borderless">
+              <tbody>
+                <tr>
+                  <td>Material/Campaigning/Creative expense</td>
+                  <td>
+                    {{
+                    activityDetail.activityFinancialDTO
+                    ?.materialOrCreativeExpense
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Logistic Expense</td>
+                  <td>
+                    {{ activityDetail.activityFinancialDTO?.logisticExpense }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Gratification Expense</td>
+                  <td>
+                    {{
+                    activityDetail.activityFinancialDTO?.gratificationExpense
+                    }}
+                  </td>
+                </tr>
+                <!-- <tr>
+                <td>Creative</td>
+                <td>
+                  {{
+                    activityDetail.activityFinancialDTO
+                      ?.materialOrCreativeExpense
+                  }}
+                </td>
+              </tr> -->
+                <tr>
+                  <td>Other</td>
+                  <td>
+                    {{ activityDetail.activityFinancialDTO?.otherExpense }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <table class="table table-borderless">
+              <tbody>
+                <tr>
+                  <td>Actual Material/Campaigning/Creative expense</td>
+                  <td>
+                    {{
+                    activityDetail.activityFinancialDTO
+                    ?.actualMaterialExpense || "0.0"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Actual Logistic Expense</td>
+                  <td>
+                    {{
+                    activityDetail.activityFinancialDTO
+                    ?.actualLogisticExpense || "0.0"
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Actual Gratification Expense</td>
+                  <td>
+                    {{
+                    activityDetail.activityFinancialDTO
+                    ?.actualGratificationExpense || "0.0"
+                    }}
+                  </td>
+                </tr>
+                <!-- <tr>
+                <td>Actual Creative</td>
+                <td>
+                  {{
+                    activityDetail.activityFinancialDTO
+                      ?.materialOrCreativeExpense || "0.0"
+                  }}
+                </td>
+              </tr> -->
+                <tr>
+                  <td>Actual Other</td>
+                  <td>
+                    {{
+                    activityDetail.activityFinancialDTO?.actualOtherExpense ||
+                    "0.0"
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- End of section 2 -->
+
+    <!-- -----------testimonials start---------------- -->
+    <div class="container-fluid mt-4 testimonial-block" *ngIf="activityDetail?.testimonial">
+      <div class="testimonials" [ngStyle]="{ 'background-image': 'url(' + testimonialBgImage + ')' }">
+        <h3>
+          <img src="assets\images\activities\quote-icon.svg" alt="" />
+          Testimonials
+        </h3>
+        <p>{{ activityDetail?.testimonial }}</p>
+
+        <div class="user-name mt-5">
+          <h4 class="m-0">{{ activityDetail?.testimonialPersonName }}</h4>
+          <div class="rating-wrapper">
+            <app-star-rating value="{{ activityDetail?.rating }}" class="disableDiv"></app-star-rating>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- -----------testimonials end---------------- -->
+
+    <!-- Section 3 -->
+    <div class="container-fluid page__content-block mt-4" *ngIf="pagedItems && !isPreview">
+      <div class="page__header" *ngIf="!isPreview">
+        <div class="page__tabContainer">
+          <h3 class="page__heading" *ngIf="role === roleEnum.EMPLOYEE; else otherEmpHeading">
+            Your Uploads
+          </h3>
+          <ng-template #otherEmpHeading>Employee Uploads</ng-template>
+          <section class="selectall-sec" *ngIf="pagedItems.length && !isHistory">
+            <mat-checkbox class="example-margin" (change)="selectAllImages()">Select All</mat-checkbox>
+          </section>
+        </div>
+        <div class="page__rightColumn">
+          <button type="button" class="btn btn-grey" *ngIf="
+              pagedItems.length && role !== roleEnum.EMPLOYEE && !isHistory
+            " (click)="goToGallery()">
+            View Gallery
+          </button>
+
+          <button type="button" class="btn btn-grey" (click)="uploadImages()" *ngIf="
+              pagedItems.length && role !== roleEnum.EMPLOYEE && !isHistory
+            " [disabled]="!enableOrDisableBtn" [matTooltip]="'upload'" [matTooltipPosition]="'above'">
+            <img src="assets\images\activities\upload.svg" />
+          </button>
+          <button type="button" class="btn btn-red" (click)="removeImages()" *ngIf="pagedItems.length && !isHistory"
+            [disabled]="!enableOrDisableBtn" [matTooltip]="'delete'" [matTooltipPosition]="'above'">
+            <img src="assets\images\activities\delete.svg" />
+          </button>
+          <button type="button" class="btn btn-grey" (click)="uploadImage()" [matTooltip]="'Browse'"
+            [matTooltipPosition]="'above'" *ngIf="
+              !isHistory &&
+              !(role === roleEnum.EMPLOYEE && pagedItems.length >= 5) &&
+              activityState !== this.activityStateType.PAST
+            ">
+            <img src="assets\images\activities\folder.svg" />
+          </button>
+        </div>
+      </div>
+
+      <div class="row g-3" *ngIf="pagedItems" [formGroup]="activityForm">
+        <div class="col-md-4" *ngFor="let image of activityFormArray.controls; let i = index" formArrayName="images">
+          <div class="gall-img-sec activity-img-sec">
+            <img [src]="pagedItems[i].imageUrl" class="activity-img" alt="" />
+            <section class="select-section">
+              <mat-checkbox [formControlName]="i" class="example-margin ov-chkbx" *ngIf="!isHistory"></mat-checkbox>
+            </section>
+            <div class="act-img-overlay-sec">
+              <div class="flbx-stretch">
+                <span class="badge status-published" *ngIf="pagedItems[i].published">Published</span>
+                <span class="badge status-uploaded" *ngIf="!pagedItems[i].published">Uploaded</span>
+              </div>
+              <div class="gall-img-bottom">
+                <div class="flbx-stretch align-items-end">
+                  <div>
+                    <h3>{{ pagedItems[i].uploadedBy }}</h3>
+                    <span class="gall-img-date">
+                      {{ pagedItems[i].uploadedDate | date : "dd-MM-YY" }}</span>
+                  </div>
+                  <div class="flbx-vac">
+                    <img src="assets\images\trash-white.svg" class="act-bt" (click)="removeSingleImage(pagedItems[i])"
+                      *ngIf="!isHistory" [matTooltip]="'Delete'" [matTooltipPosition]="'above'" />
+
+                    <img src="assets\images\preview.svg" class="act-bt" (click)="preview(pagedItems[i]?.imageUrl)"
+                      [matTooltip]="'Preview'" [matTooltipPosition]="'above'" />
+
+                    <img src="assets\images\upload-white.svg" class="act-bt" (click)="uploadSingleImage(pagedItems[i])"
+                      *ngIf="
+                        role !== roleEnum.EMPLOYEE && !pagedItems[i].published
+                      " [matTooltip]="'Upload'" [matTooltipPosition]="'above'" />
+                    <img src="assets\images\download-white.svg" class="act-bt"
+                      (click)="downloadImg(pagedItems[i]?.imageUrl)" [matTooltip]="'Download'"
+                      [matTooltipPosition]="'above'" />
+                    <!-- <img src="assets\images\preview.svg" /> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Pagination component -->
+
+      <app-pagination *ngIf="pagedItems.length" (pageChange)="onPageChange($event)" [page]="currentPage"
+        [pageSize]="pageSize" [totalItems]="totalItems"></app-pagination>
+      <!-- End -->
+    </div>
+    <!-- End of section 3 -->
+
+    <!--Feedbacks for admins -->
+    <div class="container-fluid page__content-block mt-4" *ngIf="role !== roleEnum.EMPLOYEE && !isPreview">
+      <div class="flbx-stretch align-items-center">
+        <div class="page__tabContainer">
+          <h3 class="fbd-heading">Feedbacks</h3>
+          <section class="selectall-sec" *ngIf="fpagedItems.length > 0 && !isHistory">
+            <mat-checkbox class="example-margin" (change)="selectAllfeedbacks()">Select All</mat-checkbox>
+          </section>
+        </div>
+
+        <div class="page__rightColumn">
+          <button type="button" class="btn btn-grey" (click)="goToGallery()"
+            *ngIf="fpagedItems.length > 0 && !isHistory">
+            View Gallery
+          </button>
+          <button type="button" class="btn btn-grey" (click)="uploadFeedbacksToGallery()"
+            [disabled]="!enableOrDisableFBtn" [matTooltip]="'Upload'" [matTooltipPosition]="'above'"
+            *ngIf="fpagedItems.length > 0 && !isHistory">
+            <img src="assets\images\activities\upload.svg" alt="" />
+          </button>
+          <button type="button" class="btn btn-red" (click)="removeFeedbacks()" [disabled]="!enableOrDisableFBtn"
+            [matTooltip]="'Delete'" [matTooltipPosition]="'above'" *ngIf="fpagedItems.length > 0 && !isHistory">
+            <img src="assets\images\activities\delete.svg" alt="" />
+          </button>
+          <button type="button" class="btn btn-grey" (click)="openFeedbackPanel()" [matTooltip]="'Add'"
+            [matTooltipPosition]="'above'" *ngIf="role !== roleEnum.EMPLOYEE && !isHistory">
+            <img src="assets\images\plus.svg" alt="" />
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid mt-4 px-0" *ngIf="role !== roleEnum.EMPLOYEE && !isPreview">
+      <section *ngIf="fpagedItems">
+        <div class="row g-4" [formGroup]="feedbackForm">
+          <div class="col-lg-4 col-md-6" *ngFor="let feedback of feedbackFormArray.controls; let i = index"
+            formArrayName="feedbacks">
+            <div class="fdbk-wrapper">
+              <div class="fdbk-details flbx-stretch">
+                <div class="fb-user-avtar flbx-vac">
+                  <div class="uname">
+                    {{ getShortName(fpagedItems[i]?.fullName) }}
+                  </div>
+                  <div>
+                    <h3 class="username">{{ fpagedItems[i]?.fullName }}</h3>
+                    <p class="fb-date">
+                      {{ fpagedItems[i]?.createdDate | date : "dd-MM-YYYY" }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flbx-vac">
+                  <button type="button" class="btn btn-grey" (click)="editFeedbackPanel(fpagedItems[i])">
+                    <img src="assets\images\activities\edit.svg" alt="" />
+                  </button>
+                  <section class="select-section">
+                    <mat-checkbox class="example-margin" [formControlName]="i"></mat-checkbox>
+                  </section>
+                </div>
+              </div>
+              <div class="rating-wrapper mt-3 mb-3">
+                <app-star-rating value="{{ fpagedItems[i]?.rating }}" class="disableDiv"></app-star-rating>
+                <!-- star rating -->
+              </div>
+              <div class="fb-content">
+                <p>
+                  {{
+                  returnFeedbackToShort(fpagedItems[i]?.feedback)?.textContent
+                  }}
+                </p>
+                <a href="javascript:void();" (click)="feedbackReadMore(fpagedItems[i])"
+                  *ngIf="returnFeedbackToShort(fpagedItems[i]?.feedback)?.show">Continue Reading</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Pagination component -->
+
+        <app-pagination *ngIf="fpagedItems.length > 0" (pageChange)="onfeedbackPageChange($event)" [page]="fcurrentPage"
+          [pageSize]="fpageSize" [totalItems]="ftotalItems"></app-pagination>
+        <!-- End -->
+      </section>
+    </div>
+
+    <!-- End of feedbacks-->
+
+    <!-- Feedback for employee -->
+    <ng-container *ngIf="role === roleEnum.EMPLOYEE">
+      <div class="container-fluid page__content-block mt-4">
+        <div class="flbx-stretch align-items-center">
+          <div class="page__tabContainer">
+            <h3 class="fbd-heading">Your Feedbacks</h3>
+          </div>
+        </div>
+      </div>
+      <div class="row gx-4" *ngIf="fpagedItems?.length">
+        <div class="col-12">
+          <div class="fdbk-wrapper" *ngFor="let feedback of fpagedItems; let i = index">
+            <div class="fdbk-details flbx-stretch">
+              <div class="fb-user-avtar flbx-vac">
+                <div class="uname">{{ getShortName(feedback?.fullName) }}</div>
+                <div>
+                  <h3 class="username">{{ feedback?.fullName }}</h3>
+                  <p class="fb-date">
+                    {{ feedback?.createdDate | date : "dd-MM-YYYY" }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="flbx-vac">
+                <button type="button" class="btn btn-grey" *ngIf="!isHistory" (click)="editFeedbackPanel(feedback)">
+                  <img src="assets\images\activities\edit.svg" alt="" />
+                </button>
+                <button type="button" class="btn btn-grey" *ngIf="!isHistory"
+                  (click)="removeSingleFeedback(feedback?.feedbackId)">
+                  <img src="assets\images\activities\delete.svg" alt="" />
+                </button>
+              </div>
+            </div>
+
+            <div class="rating-wrapper mt-3 mb-3">
+              <app-star-rating value="{{ feedback?.rating }}" class="disableDiv"></app-star-rating>
+            </div>
+
+            <div class="fb-content">
+              <p>
+                {{ feedback?.feedback }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- End feedbsacks -->
+
+    <div class="container-fluid mt-5 px-0 contact-btm">
+      <div class="row">
+        <div class="col-12 col-md-6 cont-info">
+          <h2>Contact Information</h2>
+          <h4 class="m-0">{{ activityDetail.contactPerson }}</h4>
+          <p>Local admin</p>
+          <!-- <div class="contact">
+            <mat-icon> phone</mat-icon><span>8876346645</span>
+          </div> -->
+          <div class="email">
+            <mat-icon> email</mat-icon><span><a href="mailto:{{ activityDetail.contanctEmail }}">{{
+                activityDetail.contanctEmail
+                }}</a></span>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 d-flex justify-content-end align-items-end">
+          <div *ngIf="
+              role === roleEnum.EMPLOYEE  &&
+              !isHistory
+            ">
+            <button type="button" class="btn btn-red" *ngIf="
+                activityDetail?.employeeParticipationStatus !== 'Enrolled' &&
+                activityDetail?.employeeParticipationStatus !== 'Feedback' &&
+                activityDetail?.employeeParticipationStatus !== 'Participated'&&
+                activityState !== this.activityStateType.PAST
+              " (click)="enrollnow(activityDetail)">
+              Enroll
+            </button>
+            <button type="button" class="btn btn-red" (click)="confirmParticipation(activityDetail)" *ngIf="
+                activityDetail?.employeeParticipationStatus === 'Enrolled' &&
+                returnCheckAtivityDates(activityDetail?.startDate) &&
+                activityDetail?.employeeParticipationStatus !== 'Feedback' &&
+                activityDetail?.employeeParticipationStatus !== 'Participated'
+              ">
+              Confirm Participation
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,48 @@
+<div class="closed__wrapper">
+  <div class="notification__head">
+    <div class="notification__delete chat__element">
+      <h2 class="heading">Add Tag</h2>
+      <!-- <h3 class="closed__heading">Are you sure you want to delete?</h3> -->
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          [formControl]="activtiyNameTagControl"
+          placeholder="Activity tag name"
+        />
+        <mat-error
+          *ngIf="
+            activtiyNameTagControl?.invalid &&
+            (activtiyNameTagControl?.dirty || activtiyNameTagControl?.touched)
+          "
+        >
+          <div
+            *ngIf="
+              activtiyNameTagControl?.hasError('trimError');
+              else requiredError
+            "
+          >
+            {{ activtiyNameTagControl?.errors?.trimError?.value }}
+          </div>
+          <ng-template #requiredError>
+            <ng-container *ngIf="activtiyNameTagControl?.invalid">
+              Tag name required
+            </ng-container>
+          </ng-template>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="notification__container">
+    <button
+      class="btn btn-red"
+      [disabled]="activtiyNameTagControl.invalid"
+      (click)="saveActivityTag()"
+    >
+      Save
+    </button>
+    <button class="btn btn-grey" mat-dialog-close (click)="close()">
+      Cancel
+    </button>
+  </div>
+</div>

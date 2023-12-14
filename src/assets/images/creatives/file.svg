@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="266.5" height="200" viewBox="0 0 266.5 200">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.684" gradientTransform="translate(0 -0.282) scale(1 1.563)" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#f2f2f2"/>
+    </radialGradient>
+  </defs>
+  <g id="file" transform="translate(-16727 -15879)">
+    <rect id="Rectangle_147840" data-name="Rectangle 147840" width="266.5" height="200" transform="translate(16727 15879)" fill="url(#radial-gradient)"/>
+    <g id="Group_82209" data-name="Group 82209" transform="translate(1)">
+      <circle id="Ellipse_1366" data-name="Ellipse 1366" cx="45" cy="45" r="45" transform="translate(16815 15934)" fill="#ebebeb"/>
+      <g id="stypi-document-svgrepo-com" transform="translate(16840 15956)">
+        <path id="Path_60909" data-name="Path 60909" d="M3.624.006A3.625,3.625,0,0,0,0,3.632V42.105a3.625,3.625,0,0,0,3.624,3.626h32.71a3.626,3.626,0,0,0,3.626-3.626V14.518L26.452.006H3.624Z" transform="translate(0 -0.002)" fill="#78ae38" fill-rule="evenodd"/>
+        <path id="Path_60910" data-name="Path 60910" d="M50.573,18.723v.715H41.428s-4.51-.9-4.38-4.793a4.19,4.19,0,0,0,4.29,4.078Z" transform="translate(-10.573 -4.18)" fill="rgba(0,0,0,0.13)" fill-rule="evenodd"/>
+        <path id="Path_60911" data-name="Path 60911" d="M37.074,0V10.4a4.13,4.13,0,0,0,4.362,4.138h9.146Z" transform="translate(-10.582)" fill="#d8ffaa" fill-rule="evenodd" opacity="0.5"/>
+        <path id="Path_60912" data-name="Path 60912" d="M23.917,34.8h-12.6a1.126,1.126,0,0,0-1.127,1.127V47.355a1.127,1.127,0,0,0,1.127,1.127h9.409l4.316-4.3V35.929A1.126,1.126,0,0,0,23.917,34.8Z" transform="translate(-2.909 -9.933)" fill="#fff" fill-rule="evenodd"/>
+        <path id="Path_60913" data-name="Path 60913" d="M13.741,42.538h9.772v1.174H13.741Zm0-2.54h9.772v1.173H13.741Zm0,5.08h6.336v1.174H13.741Z" transform="translate(-3.922 -11.416)" fill="#78ae38" fill-rule="evenodd"/>
+      </g>
+    </g>
+  </g>
+</svg>

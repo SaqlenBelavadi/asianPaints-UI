@@ -1,0 +1,96 @@
+<div class="closed__wrapper">
+    <div class="">
+      <div class="chat__element">
+        <h2 class="heading">Add Banner</h2>
+        <form [formGroup]="bannerPictureForm">
+          <div class="upload">
+            <div class="flbx-stretch align-items-start">
+              <h3>Upload Picture</h3>
+            </div>
+  
+            <div class="item-wrapper one">
+              <div class="item">
+                <div class="item-inner">
+                  <div class="item-content">
+                    <div
+                      class="image-upload"
+                      appDrag
+                      (drop)="filesDropped($event)"
+                    >
+                      <label style="cursor: pointer" for="file_upload">
+                        <div class="h-100">
+                          <div class="dplay-tbl">
+                            <div class="dplay-tbl-cell">
+                              <img
+                                src="assets/images/upload-icon.svg"
+                                alt="upload"
+                              />
+                              <div>
+                                <h3 class="m-0 text-start">
+                                  Drag and drop file here
+                                </h3>
+                                <p class="m-0 text-start">Or</p>
+                                <h2 class="m-0 text-start">Browse file</h2>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--upload-content-->
+                        <input
+                          type="file"
+                          id="file_upload"
+                          class="image-input"
+                          multiple
+                          data-traget-resolution="image_resolution"
+                          value=""
+                          #fileInput
+                          (change)="onFileSelection($event)"
+                          accept=".jpg,.jpeg,.bmp,.png,.svg,.gif,.jfif,.pjpeg,pjp"
+                        />
+                        <mat-error
+                          *ngIf="bannerPictureForm.get('image')?.errors?.required"
+                        >
+                     Please select any image file of format .jpg, .jpeg, .bmp, .png, .svg, .gif, .jfif, .pjpeg, pjp
+                        </mat-error>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+  
+            <div
+              class="choose-img mt-3 d-flex"
+              *ngIf="photos.value.length"
+            >
+              <div
+                class="answers"
+                formArrayName="image"
+                *ngFor="let preview of photos?.controls; let i = index"
+              >
+                <div class="flbx-vac" [formGroupName]="i">
+                  <label class="answer">
+                    <img [src]="preview.get('url')?.value" class="preview_img" />
+                    <div class="close">
+                      <img
+                        src="assets/images/close.svg"
+                        (click)="clearImage(i)"
+                      />
+                    </div>
+                  </label>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <div class="notification__container">
+      <button class="btn btn-red" (click)="onSave()">Save</button>
+      <button class="btn btn-grey" mat-dialog-close>Cancel</button>
+    </div>
+  </div>
+  

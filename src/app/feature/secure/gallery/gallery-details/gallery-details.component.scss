@@ -1,0 +1,123 @@
+
+.check-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    // @media screen and (max-width: 768px) {
+    // display: block;
+    // }
+  }
+  .select-all{
+    @media screen and (max-width: 768px) {
+     margin-bottom: 10px;
+      }
+  }
+
+  .card-top {
+
+    p {
+      font-size: 13px;
+      color: #fff;
+      margin: 0px;
+      font-weight: 400;
+    }
+
+  }
+
+  .act-img-bottom {
+    .gall-details
+    {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+
+    h6 {
+      font-size: 14px;
+      color: #fff;
+      margin: 0px;
+    }
+
+    p {
+      font-size: 13px;
+      color: #fff;
+      margin: 0px;
+    }
+
+    .action {
+      display: flex;
+      align-items: center;
+
+      img {
+        margin-right: 7px;
+      }
+    }
+  }
+
+  .creatives-card {
+    .creatives-img {
+      height: 150px;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    border-radius: 6px;
+    border: 1px solid #DCDCDC;
+
+    p {
+      font-size: 13px !important;
+    }
+
+    span {
+      color: #bfbcbc;
+    }
+
+    h4 {
+      font-size: 16px !important;
+      font-weight: 500;
+      padding-top: 3px;
+    }
+  }
+
+  .twobtn-group {
+    display: flex;
+    align-items: center;
+
+    .btn-grey {
+      height: auto;
+    }
+  }
+
+  .all-activity-card {
+    border: 1px solid #DCDCDC;
+    padding: 5px;
+    position: relative;
+
+    .overlay-sec {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+      z-index: 1;
+      // height: 100%;
+      width: 100%;
+      padding: 15px;
+    }
+
+    h4 {
+      font-size: 16px !important;
+      font-weight: 500;
+      padding-top: 3px;
+      white-space: nowrap;
+      width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block !important;
+    }
+  }

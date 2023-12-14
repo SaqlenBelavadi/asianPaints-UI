@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28.605" height="26.52" viewBox="0 0 28.605 26.52">
+  <g id="IonChatboxEllipsesOutline" transform="translate(0.75 0.75)">
+    <path id="Path_1213" data-name="Path 1213" d="M71.457,64H51.649A3.659,3.659,0,0,0,48,67.649v12.51a3.659,3.659,0,0,0,3.649,3.649h2.606V89.02l6.107-5.091a.521.521,0,0,1,.334-.121H71.457a3.659,3.659,0,0,0,3.649-3.649V67.649A3.659,3.659,0,0,0,71.457,64Z" transform="translate(-48 -64)" fill="none" stroke="#302152" stroke-linejoin="round" stroke-width="1.5"/>
+    <ellipse id="Ellipse_106" data-name="Ellipse 106" cx="1.796" cy="2.694" rx="1.796" ry="2.694" transform="translate(5.389 6.539)" fill="#302152"/>
+    <circle id="Ellipse_107" data-name="Ellipse 107" cx="2.694" cy="2.694" r="2.694" transform="translate(10.777 6.539)" fill="#302152"/>
+    <ellipse id="Ellipse_108" data-name="Ellipse 108" cx="2.245" cy="2.694" rx="2.245" ry="2.694" transform="translate(17.064 6.539)" fill="#302152"/>
+  </g>
+</svg>

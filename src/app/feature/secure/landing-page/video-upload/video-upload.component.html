@@ -1,0 +1,38 @@
+<swiper-container
+  #swiperContainer
+  style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
+  class="mySwiper big-screen"
+  thumbs-swiper=".mySwiper2"
+  space-between="10"
+  navigation="true"
+>
+  <ng-container *ngFor="let vid of videoUrls">
+    <swiper-slide>
+      <iframe
+        id="youtubeframe"
+        #youtubeframe
+        width="560"
+        height="315"
+        [src]="vid"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    </swiper-slide>
+  </ng-container>
+</swiper-container>
+
+<swiper-container
+  class="mySwiper2 thumb-img"
+  space-between="10"
+  slides-per-view="4"
+  free-mode="true"
+  watch-slides-progress="true"
+>
+  <ng-container *ngFor="let tmb of videoTmbUrls">
+    <swiper-slide>
+      <img [src]="tmb" />
+    </swiper-slide>
+  </ng-container>
+</swiper-container>

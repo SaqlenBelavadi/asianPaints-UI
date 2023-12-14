@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="266.5" height="200" viewBox="0 0 266.5 200">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.684" gradientTransform="translate(0 -0.282) scale(1 1.563)" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#f2f2f2"/>
+    </radialGradient>
+  </defs>
+  <g id="doc" transform="translate(-16444 -15879)">
+    <rect id="Rectangle_147840" data-name="Rectangle 147840" width="266.5" height="200" transform="translate(16444 15879)" fill="url(#radial-gradient)"/>
+    <g id="Group_82207" data-name="Group 82207">
+      <circle id="Ellipse_1366" data-name="Ellipse 1366" cx="45" cy="45" r="45" transform="translate(16532 15934)" fill="#ebebeb"/>
+      <g id="word-document-svgrepo-com" transform="translate(16557 15956)">
+        <g id="Group_82202" data-name="Group 82202" transform="translate(0 0)">
+          <path id="Path_60914" data-name="Path 60914" d="M3.65,0A3.621,3.621,0,0,0,0,3.571V42.057a3.621,3.621,0,0,0,3.65,3.657h32.7A3.621,3.621,0,0,0,40,42.057V14.486L26.471,0Z" transform="translate(0 0)" fill="#f9a72c" fill-rule="evenodd"/>
+          <path id="Path_60915" data-name="Path 60915" d="M50.585,18.719v.714H41.427s-4.507-.9-4.379-4.793a4.19,4.19,0,0,0,4.286,4.079Z" transform="translate(-10.585 -4.183)" fill="rgba(0,0,0,0.13)" fill-rule="evenodd"/>
+          <path id="Path_60916" data-name="Path 60916" d="M37.07,0V10.4a4.128,4.128,0,0,0,4.364,4.136h9.157Z" transform="translate(-10.591 0)" fill="#ffe2b7" fill-rule="evenodd" opacity="0.5"/>
+        </g>
+        <path id="Path_60917" data-name="Path 60917" d="M13.074,50.237H10.931a.771.771,0,0,1-.771-.771V42.43a.771.771,0,0,1,.771-.771h2.143a4.286,4.286,0,0,1,0,8.571Zm0-7.621H11.21v6.671h1.864a3.337,3.337,0,1,0,0-6.671Zm10.3,7.779a4.186,4.186,0,0,1-4.286-4.436,4.286,4.286,0,1,1,8.514,0,4.193,4.193,0,0,1-4.229,4.436Zm0-7.921a3.169,3.169,0,0,0-3.15,3.486,3.166,3.166,0,1,0,6.3,0,3.174,3.174,0,0,0-3.15-3.479Zm13.178.271a.536.536,0,0,1,.143.371.507.507,0,0,1-.5.514.457.457,0,0,1-.364-.171,2.9,2.9,0,0,0-2.143-.986,3.486,3.486,0,0,0,0,6.971,2.857,2.857,0,0,0,2.143-.979.5.5,0,0,1,.364-.171.514.514,0,0,1,.5.529.557.557,0,0,1-.143.364A3.807,3.807,0,0,1,33.7,50.394a4.443,4.443,0,0,1,0-8.879A3.757,3.757,0,0,1,36.553,42.744Z" transform="translate(-2.903 -11.766)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

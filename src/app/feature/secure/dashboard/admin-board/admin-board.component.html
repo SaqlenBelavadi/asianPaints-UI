@@ -1,0 +1,304 @@
+<div class="page__msgWrapper">
+  <div class="widget__wrapper">
+    <div class="widget__chat" (click)="goToParticipantsDetails()">
+      <div class="widget__icon bg__sec-bg-1">
+        <img src="assets/images/icons/voluntrees.svg" alt="" />
+      </div>
+      <div class="widget__right">
+        <div class="widget__head">No.of volunteers</div>
+        <div class="widget__body">
+          <div class="widget__content">
+            <span class="widget__count">{{
+              dashBoardCardsData?.noOfVolunteers
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="widget__chat">
+      <div class="widget__icon bg__sec-bg-1">
+        <img src="assets/images/icons/unique.svg" alt="" />
+      </div>
+      <div class="widget__right">
+        <div class="widget__head">No. of unique participations</div>
+        <div class="widget__body">
+          <div class="widget__content">
+            <span class="widget__count">{{
+              dashBoardCardsData?.noOfUniqueVolunteers
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="widget__chat">
+      <div class="widget__icon bg__sec-bg-1">
+        <img src="assets/images/icons/hours.svg" alt="" />
+      </div>
+      <div class="widget__right">
+        <div class="widget__head">Total Hours of Participation</div>
+        <div class="widget__body">
+          <div class="widget__content">
+            <span class="widget__count">{{
+              dashBoardCardsData?.totalHoursVolunteering
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="widget__chat">
+      <div class="widget__icon bg__sec-bg-1">
+        <img src="assets/images/icons/activities.svg" alt="" />
+      </div>
+      <div class="widget__right">
+        <div class="widget__head">No. of Activities Conducted</div>
+        <div class="widget__body">
+          <div class="widget__content">
+            <span class="widget__count">{{
+              dashBoardCardsData?.totalNoOfActivities
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="widget__chat">
+      <div class="widget__icon bg__sec-bg-1">
+        <img src="assets/images/icons/percentage.svg" alt="" />
+      </div>
+      <div class="widget__right">
+        <div class="widget__head">% of Participated Employees</div>
+        <div class="widget__body">
+          <div class="widget__content">
+            <span class="widget__count">{{
+              dashBoardCardsData?.enrolledVsParticipated > 0
+                ? dashBoardCardsData?.enrolledVsParticipated + "%"
+                : 0
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page__content-block">
+    <div class="widget__review-container">
+      <div class="review__agent-chat">
+        <mat-tab-group
+          class="page__tab-sec"
+          [(selectedIndex)]="selectedTabIndex"
+          (selectedTabChange)="onTabChanged($event)"
+        >
+          <mat-tab label="Dept."> </mat-tab>
+          <mat-tab label="Location"> </mat-tab>
+          <mat-tab label="Employee"> </mat-tab>
+          <mat-tab label="Month wise participation"> </mat-tab>
+          <mat-tab label="Theme wise participation"> </mat-tab>
+          <mat-tab label="Mode wise participation"> </mat-tab>
+          <mat-tab label="Finance"> </mat-tab>
+        </mat-tab-group>
+
+        <div class="box__margin-top-2" *ngIf="selectedTabIndex === 0">
+          <app-department-wise-charts
+            *ngIf="dashBoardDeptWiseData"
+            [dashBoardDeptWiseData]="dashBoardDeptWiseData"
+          ></app-department-wise-charts>
+        </div>
+        <div class="box__margin-top-2" *ngIf="selectedTabIndex === 1">
+          <app-location-wise
+            [dashBoardLocWiseData]="dashBoardLoctWiseData"
+            *ngIf="dashBoardLoctWiseData"
+          ></app-location-wise>
+        </div>
+        <div class="box__margin-top-2" *ngIf="selectedTabIndex === 2">
+          <app-employee-wise
+            [dashBoardEmpWiseData]="dashBoardEmptWiseData"
+            *ngIf="dashBoardEmptWiseData"
+          ></app-employee-wise>
+        </div>
+
+        <div class="box__margin-top-2" *ngIf="selectedTabIndex === 3">
+          <app-month-wise
+            [dashBoardMonthWiseData]="dashBoardMonthWiseData"
+            *ngIf="dashBoardMonthWiseData"
+          ></app-month-wise>
+        </div>
+
+        <div class="box__margin-top-2" *ngIf="selectedTabIndex === 4">
+          <app-theme-wise-charts
+            [themeWiseData]="dashBoardThemeWiseData"
+          ></app-theme-wise-charts>
+        </div>
+
+        <div class="box__margin-top-2" *ngIf="selectedTabIndex === 5">
+          <app-mode-wise-charts
+            [modeWiseData]="dashBoardModeWiseData"
+          ></app-mode-wise-charts>
+        </div>
+
+        <div class="box__margin-top-2" *ngIf="selectedTabIndex === 6">
+          <app-finance [financeDetails]="dashBoardFinanceData"></app-finance>
+        </div>
+
+        <!-- For CX Matrics-->
+
+        <!-- End of CX Matrics-->
+      </div>
+    </div>
+  </div>
+  <div class="page__content-block">
+    <div class="widget__review-container">
+      <div class="review__agent-chat">
+        <h3>Past Activity Details</h3>
+        <section>
+          <div class="box__margin-top-2">
+            <div class="row">
+              <div
+                class="document-listing"
+                *ngIf="pagedItems?.length === 0; else showData"
+              >
+                <div class="no-data-box">
+                  <div class="no-data">
+                    <img
+                      src="assets\images\activities\nodata.png"
+                      alt="no data"
+                    />
+                    <h4>No Records to show</h4>
+                  </div>
+                </div>
+              </div>
+              <ng-template #showData>
+                <div class="common-table">
+                  <table
+                    mat-table
+                    [dataSource]="pagedItems"
+                    class="mat-elevation-z8"
+                    matSort
+                    (matSortChange)="sortData($event)"
+                  >
+                    <!--  Column -->
+                    <ng-container matColumnDef="No">
+                      <th mat-header-cell *matHeaderCellDef>No</th>
+                      <td mat-cell *matCellDef="let element; let i = index">
+                        {{ this.currentPager.startIndex + i + 1 }}
+                      </td>
+                    </ng-container>
+
+                    <!--  Column -->
+                    <ng-container matColumnDef="date">
+                      <th mat-header-cell *matHeaderCellDef>Date</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element?.createdDate | date : "dd-MM-YYYY" }}
+                      </td>
+                    </ng-container>
+
+                    <!--  Column -->
+                    <ng-container matColumnDef="activity_id">
+                      <th mat-header-cell *matHeaderCellDef>Activity ID</th>
+                      <td mat-cell *matCellDef="let element">
+                        <a
+                          href="javascript:void();"
+                          (click)="goToActivityDetails(element)"
+                          >{{ element?.activityId }}</a
+                        >
+                      </td>
+                    </ng-container>
+
+                    <!--  Column -->
+                    <ng-container matColumnDef="activity_name">
+                      <th mat-header-cell *matHeaderCellDef>Activity Name</th>
+                      <td
+                        title="{{ element.activityName }}"
+                        mat-cell
+                        *matCellDef="let element"
+                        class="act-name"
+                      >
+                        {{ element?.activityName }}
+                      </td>
+                    </ng-container>
+
+                    <!--  Column -->
+                    <ng-container matColumnDef="location">
+                      <th mat-header-cell *matHeaderCellDef>Location</th>
+                      <td
+                        title="{{ element.activityLocation }}"
+                        mat-cell
+                        *matCellDef="let element"
+                        class="act-name"
+                      >
+                        {{ element?.activityLocation }}
+                      </td>
+                    </ng-container>
+
+                    <!--  Column -->
+                    <ng-container matColumnDef="activity_tag">
+                      <th mat-header-cell *matHeaderCellDef>Activity Tag</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element?.activityTag }}
+                      </td>
+                    </ng-container>
+
+                    <!--  Column -->
+                    <ng-container matColumnDef="total_hours">
+                      <th
+                        mat-sort-header="total_hours"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Total Hours
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element?.totalHours }}
+                      </td>
+                    </ng-container>
+
+                    <!--  Column -->
+                    <ng-container matColumnDef="total_participants">
+                      <th
+                        mat-sort-header="total_participants"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Total Participants
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element?.totalParticipants }}
+                      </td>
+                    </ng-container>
+
+                    <!--  Column -->
+                    <ng-container matColumnDef="rating">
+                      <th
+                        mat-sort-header="rating"
+                        mat-header-cell
+                        *matHeaderCellDef
+                      >
+                        Rating
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element?.rating }}
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr
+                      mat-row
+                      *matRowDef="let row; columns: displayedColumns"
+                    ></tr>
+                  </table>
+                </div>
+                <!-- Pagination component -->
+
+                <app-pagination
+                  (pageChange)="onPageChange($event)"
+                  [page]="currentPage"
+                  [pageSize]="pageSize"
+                  [totalItems]="totalItems"
+                ></app-pagination>
+                <!-- End -->
+              </ng-template>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

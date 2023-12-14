@@ -1,0 +1,192 @@
+<div class="row">
+  <h3>Images</h3>
+
+  <section class="check-section mb-3">
+    <div class="select-all">
+      <mat-checkbox
+        class="example-margin"
+        (change)="selectAllImages(themeName)"
+        *ngIf="role !== roleEnum.EMPLOYEE"
+        >Select All</mat-checkbox
+      >
+    </div>
+
+    <div class="twobtn-group">
+      <button
+        type="button"
+        class="btn btn-red"
+        [disabled]="!enableOrDisableBtn"
+        (click)="removeImages()"
+        *ngIf="role !== roleEnum.EMPLOYEE"
+      >
+        <img
+          src="assets\images\activities\delete.svg"
+          alt=""
+          [matTooltip]="'Delete'"
+          [matTooltipPosition]="'above'"
+        />
+        Delete
+      </button>
+      <ng-container *ngIf="type === 'publishedImages'; else unpublish">
+        <button
+          type="button"
+          class="btn btn-grey h-100"
+          (click)="publishOrUnpublishImages(false)"
+          [disabled]="!enableOrDisableBtn"
+          *ngIf="role !== roleEnum.EMPLOYEE"
+        >
+          <img
+            src="assets/images/unpublished-grey.svg"
+            alt=""
+            [matTooltip]="'Unpublish'"
+            [matTooltipPosition]="'above'"
+          />
+          Unpublish
+        </button>
+      </ng-container>
+      <ng-template #unpublish>
+        <button
+          type="button"
+          class="btn btn-grey h-100"
+          (click)="publishOrUnpublishImages(true)"
+          [disabled]="!enableOrDisableBtn"
+          *ngIf="role !== roleEnum.EMPLOYEE"
+        >
+          <img
+            src="assets/images/upload.svg"
+            alt=""
+            [matTooltip]="'Publish'"
+            [matTooltipPosition]="'above'"
+          />
+          Publish
+        </button>
+      </ng-template>
+    </div>
+  </section>
+
+  <ng-container
+    *ngIf="pagedItems[themeName]?.images.length"
+    [formGroup]="galleryForm"
+  >
+    <div
+      class="col-lg-3 mb-3"
+      *ngFor="let image of imageFormArray.controls; let i = index"
+      formArrayName="images"
+    >
+      <div class="activity-card">
+        <div class="activity-img-sec">
+          <img
+            [src]="pagedItems[themeName]?.images[i]?.imageUrl"
+            class="activity-img"
+          />
+          <section class="check-section ov-chkbx">
+            <mat-checkbox
+              [formControlName]="i"
+              class="example-margin"
+              *ngIf="role !== roleEnum.EMPLOYEE"
+            ></mat-checkbox>
+          </section>
+          <div class="act-img-overlay-sec">
+            <div class="card-top icon-text">
+              <img src="assets\images\map.svg" alt=""><p>{{ pagedItems[themeName]?.images[i]?.activityLocation }}</p>              
+            </div>
+
+            <!-- <button
+              type="button"
+              class="btn preview-btn"
+              (click)="preview(pagedItems[themeName]?.images[i]?.imageUrl)"
+            >
+              <img src="assets\images\preview.svg" />
+            </button> -->
+            
+            <div class="act-img-bottom">
+              <h3 title="{{
+                pagedItems[themeName]?.images[i]?.activityId +
+                  ' - ' +
+                  pagedItems[themeName]?.images[i]?.activityName
+              }}">
+                {{
+                pagedItems[themeName]?.images[i]?.activityId +
+                " - " +
+                pagedItems[themeName]?.images[i]?.activityName
+                }}
+              </h3>
+              <div class="gall-details">
+              <div>                
+                <h6 class="act-date icon-text">
+                  {{ pagedItems[themeName]?.images[i]?.uploadedBy }}
+                </h6>
+                <p class="act-time icon-text">
+                  {{ pagedItems[themeName]?.images[i]?.uploadedDate }}
+                </p>
+              </div>
+              <div class="action">
+                <img
+                  src="assets/images/trash-white.svg"
+                  alt="delete"
+                  (click)="removeSingleImage(pagedItems[themeName]?.images[i])"
+                  *ngIf="role !== roleEnum.EMPLOYEE"
+                  [matTooltip]="'Delete'"
+                  [matTooltipPosition]="'above'"
+                  class="act-bt"
+                />
+                <img src="assets\images\preview.svg" class="act-bt" (click)="preview(pagedItems[themeName]?.images[i]?.imageUrl)" [matTooltip]="'Preview'"
+                [matTooltipPosition]="'above'"/>
+                <img
+                  src="assets/images/unpublished.svg"
+                  class="act-bt"
+                  alt="unpublish"
+                  *ngIf="
+                    pagedItems[themeName]?.images[i]?.published &&
+                    role !== roleEnum.EMPLOYEE
+                  "
+                  (click)="
+                    publishOrUnpublishSingleImage(
+                      pagedItems[themeName]?.images[i],
+                      false
+                    )
+                  "
+                  [matTooltip]="'Unpublish'"
+                  [matTooltipPosition]="'above'"
+                />
+                <img
+                  src="assets/images/upload-white.svg"
+                  class="act-bt"
+                  alt="publish"
+                  *ngIf="
+                    !pagedItems[themeName]?.images[i]?.published &&
+                    role !== roleEnum.EMPLOYEE
+                  "
+                  (click)="
+                    publishOrUnpublishSingleImage(
+                      pagedItems[themeName]?.images[i],
+                      true
+                    )
+                  "
+                  [matTooltip]="'Publish'"
+                  [matTooltipPosition]="'above'"
+                />
+                <img
+                  src="assets\images\download-white.svg"
+                  class="act-bt"
+                  (click)="
+                    downloadImg(pagedItems[themeName]?.images[i]?.imageUrl)
+                  "
+                  [matTooltip]="'Download'"
+                  [matTooltipPosition]="'above'"
+                />
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<app-pagination
+  (pageChange)="onPageChange($event)"
+  [page]="currentPage"
+  [pageSize]="pageLimit"
+  [totalItems]="totalItems"
+></app-pagination>

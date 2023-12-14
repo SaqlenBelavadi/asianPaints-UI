@@ -1,0 +1,26 @@
+<div class="header-Landing_config">
+  <h1>Manage voice of change</h1>
+  <a class="btn-create" (click)="createVoiceOfChange()">+ Create</a>
+</div>
+
+<div class="content-wrap_cms">
+  <div class="cms_content_box" *ngFor="let vc of vocData">
+    <div class="first_sec">
+      <div class="title_sec">
+        <div class="img-box">
+          <img [src]="vc?.vocPictureLocation" />
+        </div>
+        <h2>
+          {{ vc?.personName }} <span>{{ vc?.designationOrInfo }}</span>
+        </h2>
+      </div>
+      <div class="btn_sec">
+        <a class="delete" (click)="deleteVoiceOfChangeData(vc?.imageName)"></a>
+        <!-- <a class="edit"></a>
+               <a class="view"></a> -->
+        <!-- <a class="play"></a> -->
+        <!-- <a class="stop"></a> -->
+      </div>
+    </div>
+  </div>
+</div>

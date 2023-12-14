@@ -1,0 +1,30 @@
+<div class="header-Landing_config">
+  <h1>Manage Testimonials</h1>
+  <a class="btn-create" (click)="createTestimonial()">+ Create</a>
+</div>
+
+<div class="content-wrap_cms">
+  <div class="cms_content_box" *ngFor="let testi of testimonialData">
+    <div class="first_sec">
+      <div class="title_sec">
+        <div class="img-box">
+          <img [src]="testi?.testimonialPictureLocation" />
+        </div>
+        <h2>
+          {{testi.testimonialName}} <span>{{ testi?.designationAndLocation }}</span>
+        </h2>
+      </div>
+      <div class="btn_sec">
+        <a class="delete" (click)="deleteTestimonialData(testi?.imageName)"></a>
+        <!-- <a class="edit"></a>
+               <a class="view"></a>
+               <a class="play"></a> -->
+      </div>
+    </div>
+    <div class="second_sec">
+      <p>
+        {{ testi?.description }}
+      </p>
+    </div>
+  </div>
+</div>

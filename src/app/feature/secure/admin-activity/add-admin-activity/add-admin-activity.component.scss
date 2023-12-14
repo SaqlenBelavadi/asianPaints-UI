@@ -1,0 +1,99 @@
+.box {
+  margin-top: 10px;
+  position: relative;
+  background-color: rgb(255, 255, 255);
+  border-style: solid;
+  border-color: #dfdfdf;
+  border-width: 1px;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.bottom-content {
+  padding-top: 10px;
+
+  p {
+    margin-left: 10px;
+    margin: 0px;
+  }
+
+  img {
+    padding-right: 15px;
+  }
+}
+
+.top-content {
+  width: 100%;
+  border-bottom: 1px solid rgb(212, 212, 212);
+
+  h6 {
+    font-size: 18px;
+    margin: 0px;
+  }
+}
+
+.avatar {
+  background-color: rgb(222, 164, 255);
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  justify-content: center;
+}
+
+.content {
+  margin-left: 20px;
+  padding: 10px;
+}
+
+.employee {
+  margin-left: -55px;
+}
+
+.location {
+  margin-left: -55px;
+}
+
+.inner {
+  margin-left: 10px;
+}
+
+.inner1 {
+  margin-left: 10px;
+}
+
+hr {
+  display: flex;
+  margin-top: 90px;
+  margin-left: auto;
+  margin-right: 200px;
+  height: 2px;
+  width: 80px;
+  border-width: 1px;
+  color: black;
+}
+
+.footer-btn {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 25px 0px 25px;
+  border-top: 1px solid #ee4238;
+
+  .btn {
+    margin-right: 10px;
+  }
+}
+
+.example-form {
+  .btn {
+    margin-top: -12px;
+    height: 40px;
+  }
+}
+.s-btn
+{
+  max-height: 39px;
+  margin-top: .25em;
+}

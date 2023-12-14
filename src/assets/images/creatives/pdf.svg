@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="266.5" height="200" viewBox="0 0 266.5 200">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.684" gradientTransform="translate(0 -0.282) scale(1 1.563)" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#f2f2f2"/>
+    </radialGradient>
+  </defs>
+  <g id="pdf" transform="translate(-15877.87 -15879)">
+    <rect id="Rectangle_147840" data-name="Rectangle 147840" width="266.5" height="200" transform="translate(15877.87 15879)" fill="url(#radial-gradient)"/>
+    <g id="Group_81889" data-name="Group 81889" transform="translate(-355.13 2316)">
+      <circle id="Ellipse_1366" data-name="Ellipse 1366" cx="45" cy="45" r="45" transform="translate(16321 13618)" fill="#ebebeb"/>
+      <g id="pdf-document-svgrepo-com" transform="translate(16346 13640)">
+        <g id="Group_82201" data-name="Group 82201">
+          <path id="Path_60905" data-name="Path 60905" d="M3.643,0A3.658,3.658,0,0,0,0,3.643V42.071a3.658,3.658,0,0,0,3.643,3.643H36.357A3.658,3.658,0,0,0,40,42.071V14.5L26.5,0Z" fill="#e03d29"/>
+          <path id="Path_60906" data-name="Path 60906" d="M50.6,18.771v.714H41.456s-4.5-.929-4.357-4.786a4.179,4.179,0,0,0,4.286,4.071Z" transform="translate(-10.599 -4.2)" fill="rgba(0,0,0,0.13)"/>
+          <path id="Path_60907" data-name="Path 60907" d="M37.1,0V10.429a4.114,4.114,0,0,0,4.357,4.143H50.6Z" transform="translate(-10.6)" fill="#ffc6bf" opacity="0.5"/>
+        </g>
+        <path id="Path_60908" data-name="Path 60908" d="M13.529,46.943H11.171v2.929a.509.509,0,0,1-.571.5.488.488,0,0,1-.5-.5V42.586a.793.793,0,0,1,.786-.786h2.643a2.553,2.553,0,0,1,2.714,2.571A2.514,2.514,0,0,1,13.529,46.943Zm-.071-4.214H11.171v3.286h2.286a1.644,1.644,0,1,0,0-3.286Zm7.429,7.643H18.743a.793.793,0,0,1-.786-.786v-7a.793.793,0,0,1,.786-.786h2.143a4.288,4.288,0,1,1,0,8.571Zm0-7.643H19.029v6.643h1.857a3.167,3.167,0,0,0,3.286-3.357A3.071,3.071,0,0,0,20.886,42.729Zm11.643,0H28.386v2.786h4.071c.286,0,.429.214.429.5a.412.412,0,0,1-.429.429H28.386v3.429a.509.509,0,0,1-.571.5.488.488,0,0,1-.5-.5V42.586A.793.793,0,0,1,28.1,41.8h4.429c.286,0,.429.214.429.5C33.029,42.514,32.814,42.729,32.529,42.729Z" transform="translate(-2.886 -11.943)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

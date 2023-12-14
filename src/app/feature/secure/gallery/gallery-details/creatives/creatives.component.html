@@ -1,0 +1,29 @@
+<div class="row" *ngIf="!showTagsDetails && tagNames.length > 0">
+  <div class="col-12 col-sm-3 g-4" *ngFor="let tag of tagNames">
+    <div class="creatives-card">
+      <img
+        src="assets/images/creatives/folder.svg"
+        class="creatives-img"
+        alt=""
+        (click)="goToTagDetails(tag)"
+      />
+      <div class="creatives-card-content p-2">
+        <h4 class="d-flex m-0">
+          <span class="me-1"><mat-icon>bookmark_border</mat-icon></span
+          >{{ tag }}
+        </h4>
+        <p class="m-0 ps-4">{{ creativeImages[tag]?.totalElements }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="btn back-btn" *ngIf="showTagsDetails" (click)="goback()">
+  <img src="assets\images\creatives\back-icon.svg" /> back
+</button>
+
+<app-creative-details
+  *ngIf="showTagsDetails"
+  [tagDetails]="creativeImages"
+  [tagName]="selectedTag"
+></app-creative-details>

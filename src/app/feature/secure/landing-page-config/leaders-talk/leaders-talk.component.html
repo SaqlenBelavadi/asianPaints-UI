@@ -1,0 +1,30 @@
+<div class="header-Landing_config">
+  <h1>Manage Leader Talks</h1>
+  <a class="btn-create" (click)="createLeadersTalk()">+ Create</a>
+</div>
+
+<div class="content-wrap_cms">
+  <div class="cms_content_box" *ngFor="let leaderstlk of leadersData">
+    <div class="first_sec">
+      <div class="title_sec">
+        <div class="img-box">
+          <img [src]="leaderstlk?.leaderPictureLocation" />
+        </div>
+        <h2>
+          {{leaderstlk.leaderName}} <span>{{ leaderstlk?.designation }}</span>
+        </h2>
+      </div>
+      <div class="btn_sec">
+        <a class="delete" (click)="deleteLeadersData(leaderstlk?.imageName)"></a>
+        <!-- <a class="edit"></a> -->
+        <!-- <a class="view"></a> -->
+        <!-- <a class="play"></a> -->
+      </div>
+    </div>
+    <div class="second_sec">
+      <p>
+        {{ leaderstlk?.description }}
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="closed__wrapper">
+    <div class="">
+        <div class="chat__element">
+            <h2 class="heading">Add Youtube Video Embed Url</h2>
+            <!-- <form [formGroup]="videoForm"> -->
+                <mat-form-field appearance="outline">
+                    <mat-label>Video URL</mat-label>
+                    <input matInput placeholder="Embed Video Link" [(ngModel)]="url" />
+                </mat-form-field>
+            <!-- </form> -->
+        </div>
+    </div>
+    <div class="notification__container">
+        <button class="btn btn-red" (click)="onSave()">Save</button>
+        <button class="btn btn-grey" mat-dialog-close>Cancel</button>
+      </div>
+</div>

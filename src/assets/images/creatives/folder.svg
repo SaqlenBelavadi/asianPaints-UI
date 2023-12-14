@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="266.5" height="200" viewBox="0 0 266.5 200">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.684" gradientTransform="translate(0 -0.282) scale(1 1.563)" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#f2f2f2"/>
+    </radialGradient>
+  </defs>
+  <g id="folder" transform="translate(-15877.87 -15879)">
+    <rect id="Rectangle_147840" data-name="Rectangle 147840" width="266.5" height="200" transform="translate(15877.87 15879)" fill="url(#radial-gradient)"/>
+    <g id="Group_81889" data-name="Group 81889" transform="translate(-355.13 2316)">
+      <circle id="Ellipse_1366" data-name="Ellipse 1366" cx="45" cy="45" r="45" transform="translate(16321 13618)" fill="#ebebeb"/>
+      <path id="folder_FILL1_wght400_GRAD0_opsz48_1_" data-name="folder_FILL1_wght400_GRAD0_opsz48 (1)" d="M84.1,289.092a2.938,2.938,0,0,1-2.172-.957A3.006,3.006,0,0,1,81,285.99V259.1a3.005,3.005,0,0,1,.931-2.146A2.938,2.938,0,0,1,84.1,256H98.58l3.1,3.1h17.58a3.282,3.282,0,0,1,3.1,3.1V285.99a3.282,3.282,0,0,1-3.1,3.1Z" transform="translate(16264 13390)" fill="#5d417d"/>
+    </g>
+  </g>
+</svg>

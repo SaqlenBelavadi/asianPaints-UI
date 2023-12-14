@@ -1,0 +1,30 @@
+<div class="fdbk-details flbx-stretch align-items-start">
+  <div class="fb-user-avtar flbx-vac">
+    <div class="uname">
+      {{ getShortName(data?.fullName) }}
+    </div>
+    <!-- <img src="assets/images/activities/feed-back-user.png" alt="" /> -->
+    <div>
+      <h3 class="username">{{ data?.fullName }}</h3>
+      <p class="fb-date">{{ data?.createdDate | date : "dd-MM-YYYY" }}</p>
+    </div>
+  </div>
+
+  <div class="page__rightColumn">
+    <img
+      _ngcontent-yru-c354=""
+      src="assets/images/close-btn.svg"
+      mat-dialog-close
+    />
+  </div>
+</div>
+<div class="rating-wrapper mt-3 mb-3">
+  <app-star-rating
+    value="{{ data?.rating }}"
+    disabled="'true'"
+    class="disableDiv"
+  ></app-star-rating>
+</div>
+<div class="fb-content">
+  <p>{{ data?.feedback }}</p>
+</div>

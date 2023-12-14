@@ -1,0 +1,69 @@
+.main-filter-outer {
+  background: linear-gradient(
+    90deg,
+    rgba(224, 61, 41, 1) 0%,
+    rgba(249, 167, 44, 1) 50%,
+    rgba(255, 212, 0, 1) 100%
+  );
+  padding: 20px 50px 10px 50px;
+  @media screen and (max-width: 768px) {
+    padding: 20px 20px 10px 20px;
+  }
+}
+.fl-item {
+  @media screen and (max-width: 768px) {
+    margin-bottom: 10px;
+  }
+}
+// mat-icon{
+//     position: absolute;
+//     left: 0;
+//     top: 0;
+//     color:#fff;
+// }
+mat-form-field {
+  width: 100%;
+}
+.btn-white {
+  margin-top: 3px;
+  min-height: 39px;
+  width: 100%;
+}
+
+// .fl-item
+// {
+//     margin-right: 10px;
+//     width: 100%;
+// }
+// .fl-item:last-child
+// {
+//     margin:0;
+// }
+.breadcrumbe {
+  color: #fff;
+  font-size: 16px;
+  margin: 0px 0px 10px 30px;
+}
+.mat-datepicker-popup {
+  margin-right: -40px;
+}
+.cdk-overlay-pane {
+  transform: translate(-20px, 1px) !important;
+}
+.filter-checkbox {
+  display: flex;
+  flex-direction: row;
+
+  .mat-optgroup
+  {
+  width:100%;
+  }
+
+  mat-checkbox {
+    padding: 9px 0 0 16px;
+  }
+}
+::ng-deep .mat-option-text
+{
+  width: 178px;
+}

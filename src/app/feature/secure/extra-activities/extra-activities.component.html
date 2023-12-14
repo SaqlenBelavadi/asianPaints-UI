@@ -1,0 +1,52 @@
+<section class="activity_sec">
+    <div class="container">
+      <div class="head-box mt-8">
+        <h1 class="title">Past Volunteering Activities</h1>
+      </div>
+        <div class="row justify-content-center">
+          <ng-container *ngFor="let act of uniqueActivity; let i = index">
+            <div class="col-md-4 col-12" *ngIf="i >= 6 && i % 2 === 0">
+              <div class="activity_card">
+                <img [src]="act.image" />
+                <div class="content-box">
+                  <h1>{{ act.themeName }}</h1>
+                  <h2>{{ act.locations }}</h2>
+                  <div class="dateandtime">
+                    <p>
+                      <span class="material-symbols-outlined">date_range</span
+                      >{{ act.startDate }} - {{ act.endDate }}
+                    </p>
+                    <p>
+                      <span class="material-symbols-outlined">schedule</span
+                      >{{ act.time }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-12" *ngIf="i > 6 && i % 2 != 0">
+              <div class="activity_card large">
+                <img [src]="act.image" />
+                <div class="content-box">
+                  <h1>{{ act.themeName }}</h1>
+                  <h2>{{ act.locations }}</h2>
+                  <div class="dateandtime">
+                    <p>
+                      <span class="material-symbols-outlined">date_range</span
+                      >{{ act.startDate }} - {{ act.endDate }}
+                    </p>
+                    <p>
+                      <span class="material-symbols-outlined">schedule</span
+                      >{{ act.time }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="container tc">
+        <button (click)="backToHomepage()">Back</button>
+      </div>
+</section>

@@ -1,0 +1,42 @@
+<div class="page__wrapper py-3">
+    <!-- <perfect-scrollbar> -->
+    <!-- <header>
+        <ng-content select="nggt-page-layout-header"></ng-content>
+        <div class="breadcrumb-container ">
+            <xng-breadcrumb></xng-breadcrumb>
+        </div>
+    </header> -->
+    <section class="content-section">
+
+        <!-- For Admin -->
+        <div class="page__tabContainer">
+            <div class="chat__sources">
+
+                <!-- <h2 class="page__heading">Dashboard</h2> -->
+                <!-- <div class="chat__item chat__review-tab chat__tab" [ngClass]="optionSelected ==1 ?'active':''"
+                    (click)="chooseButtonValue(1)">
+                    <img src="assets/images/chats-engagement.svg" alt="whatsapp"> <span class="chat__tab-name">Chart Option 1</span>
+                </div>
+                <div class="chat__item chat__review-tab chat__tab" [ngClass]="optionSelected ==2 ?'active':''"
+                    (click)="chooseButtonValue(2)">
+                    <img src="assets/images/agent Statistics.svg" alt="telegram"> <span class="chat__tab-name">Chart Option 2</span>
+                </div> -->
+
+            </div>
+            
+        </div>
+
+
+        <!-- for Admin board-->
+        <app-admin-board [options]="optionSelected"></app-admin-board>
+
+        <!-- End of Admin board -->
+
+
+        <!-- <ng-content select="nggt-page-layout-content">
+        </ng-content>
+        <h1>test1</h1> -->
+   
+    </section>
+    <!-- </perfect-scrollbar> -->
+</div>

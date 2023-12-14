@@ -1,0 +1,67 @@
+<ng-container *ngIf="themeNames.length === 0; else second">
+  <div class="document-listing">
+    <div class="no-data-box">
+      <div class="no-data">
+        <img src="assets\images\activities\nodata.png" alt="no data" />
+        <h4>No Records to show</h4>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #second>
+  <ng-container *ngFor="let theme of themeNames">
+    <h1>
+      {{
+        (publishedImages && publishedImages[theme]) ||
+        (feedbackItems && feedbackItems[theme])
+          ? theme
+          : ""
+      }}
+    </h1>
+    <ng-container
+      *ngIf="
+        publishedImages &&
+          publishedImages[theme]?.images?.length === 0 &&
+          feedbackItems &&
+          feedbackItems[theme]?.published?.activityFeedback.length === 0;
+        else showData
+      "
+    >
+      <div class="document-listing">
+        <div class="no-data-box">
+          <div class="no-data">
+            <img src="assets\images\activities\nodata.png" alt="no data" />
+            <h4>No Records to show</h4>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #showData>
+      <div
+        *ngIf="
+          publishedImages &&
+          publishedImages[theme] &&
+          publishedImages[theme]?.images?.length > 0
+        "
+      >
+        <app-gallery-by-themewise
+          [gallerDetails]="publishedImages"
+          [themeName]="theme"
+          [type]="type"
+        ></app-gallery-by-themewise>
+      </div>
+      <div
+        *ngIf="
+          feedbackItems &&
+          feedbackItems[theme]?.published?.activityFeedback.length > 0
+        "
+      >
+        <app-feedback-by-themewise
+          [feedbackDetails]="feedbackItems"
+          [themeName]="theme"
+          [type]="'published'"
+        ></app-feedback-by-themewise>
+      </div>
+    </ng-template>
+  </ng-container>
+</ng-template>

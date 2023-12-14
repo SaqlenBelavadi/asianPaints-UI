@@ -1,0 +1,28 @@
+{
+    "NavigationItems": [
+        {
+            "displayName": "Activities",
+            "url": "/activity/activities",
+            "icon": "assets/images/icons/admin.svg",
+            "subMenu": false,
+            "disable": false,
+            "subMenuList": []
+        },
+        {
+            "displayName": "Gallery",
+            "url": "/gallery/gallery-list",
+            "icon": "assets/images/icons/admin.svg",
+            "subMenu": false,
+            "disable": false,
+            "subMenuList": []
+        },
+        {
+            "displayName": "About EVP",
+            "url": "/about-evp",
+            "icon": "assets/images/icons/admin.svg",
+            "subMenu": false,
+            "disable": false,
+            "subMenuList": []
+        }
+    ]
+}

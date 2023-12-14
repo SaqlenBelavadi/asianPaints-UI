@@ -1,0 +1,95 @@
+<app-overlay-side-panel
+  [overlayData]="sideOverlayData"
+></app-overlay-side-panel>
+<div class="page__wrapper">
+  <section class="content-section">
+    <div class="container-fluid page__content-block">
+      <div class="page__header">
+        <div class="page__tabContainer">
+          <h2 class="page__heading">Activity Photos</h2>
+        </div>
+      </div>
+      <mat-tab-group
+        class="page__tab-sec"
+        [(selectedIndex)]="selectedTabIndex"
+        (selectedTabChange)="onTabChanged($event)"
+        *ngIf="role !== roleEnum.EMPLOYEE"
+      >
+        <mat-tab label="Published"> </mat-tab>
+        <mat-tab label="Unpublished"> </mat-tab>
+        <mat-tab label="Creatives"> </mat-tab>
+      </mat-tab-group>
+
+      <div *ngIf="selectedTabIndex === 0">
+        <ng-container *ngIf="publishedItems && feedbackItems; else second">
+          <app-published
+            [publishedImages]="publishedItems"
+            [type]="type"
+            [feedbackItems]="feedbackItems"
+          ></app-published>
+        </ng-container>
+        <ng-template #second>
+          <ng-container *ngIf="publishedItems; else third">
+            <app-published
+              [publishedImages]="publishedItems"
+              [type]="type"
+              [feedbackItems]="feedbackItems"
+            ></app-published>
+          </ng-container>
+        </ng-template>
+        <ng-template #third>
+          <ng-container *ngIf="feedbackItems">
+            <app-published
+              [publishedImages]="publishedItems"
+              [type]="type"
+              [feedbackItems]="feedbackItems"
+            ></app-published>
+          </ng-container>
+        </ng-template>
+      </div>
+      <div *ngIf="selectedTabIndex === 1">
+        <ng-container *ngIf="unPublishedItems && feedbackItems; else second">
+          <app-unpublished
+            [unpublishedImages]="unPublishedItems"
+            [type]="type"
+            [feedbackItems]="feedbackItems"
+          ></app-unpublished>
+        </ng-container>
+        <ng-template #second>
+          <ng-container *ngIf="unPublishedItems; else third">
+            <app-unpublished
+              [unpublishedImages]="unPublishedItems"
+              [type]="type"
+              [feedbackItems]="feedbackItems"
+            ></app-unpublished>
+          </ng-container>
+        </ng-template>
+        <ng-template #third>
+          <ng-container *ngIf="feedbackItems">
+            <app-unpublished
+              [unpublishedImages]="unPublishedItems"
+              [type]="type"
+              [feedbackItems]="feedbackItems"
+            ></app-unpublished>
+          </ng-container>
+        </ng-template>
+      </div>
+
+      <div *ngIf="selectedTabIndex === 2">
+        <app-creatives
+          [creativeImages]="creativesItems"
+          [type]="type"
+          *ngIf="creativesItems"
+        ></app-creatives>
+        <div class="document-listing" *ngIf="!creativesItems">
+          <div class="no-data-box">
+            <div class="no-data">
+              <img src="assets\images\activities\nodata.png" alt="no data" />
+              <h4>No Records to show</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,27 @@
+// .imageDialog{
+//     height:500px;
+//     width:550px;
+// }
+.promotion-popup {
+  position: relative;
+
+  img {
+    // width: 100%;
+    // object-fit: cover;
+    max-height: 95vh;
+    // position: relative;
+  }
+  .close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+:host ::ng-deep .mat-dialog-container {
+  padding: 0px !important;
+}

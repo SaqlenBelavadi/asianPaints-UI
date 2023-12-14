@@ -1,0 +1,148 @@
+<app-overlay-side-panel
+  [overlayData]="sideOverlayData"
+></app-overlay-side-panel>
+<div class="page__wrapper">
+  <section class="content-section">
+    <div class="container-fluid page__content-block">
+      <div class="page__header">
+        <div class="page__tabContainer">
+          <h2 class="page__heading">Local Admins</h2>
+        </div>
+
+        <div class="page__rightColumn participation">
+          <button
+            type="button"
+            class="btn btn-grey"
+            (click)="addAdminActivity()"
+          >
+            <img src="assets\images\plus.svg" alt="" /> Add Admin
+          </button>
+
+          <form class="example-form">
+            <mat-form-field class="m-0 p-0" appearance="outline">
+              <mat-label>Admin Id</mat-label>
+              <div class="flbx-stretch">
+                <input
+                  type="text"
+                  matInput
+                  [formControl]="searchControl"
+                  (keyup.enter)="searchAdmins()"
+                  (change)="onChangeState()"
+                />
+                <span class="tb-search-ico">
+                  <mat-icon
+                    class="cancel"
+                    matSuffix
+                    (click)="closeSearch()"
+                    *ngIf="searchControl?.value"
+                    >cancel</mat-icon
+                  >
+                  <mat-icon matSuffix (click)="searchAdmins()">search</mat-icon>
+                </span>
+              </div>
+              <!-- <input
+                matInput
+                placeholder="search"
+                [formControl]="searchControl"
+              />
+              <mat-icon (click)="getEmployeeDetailsById('initial')" matSuffix
+                >search</mat-icon
+              > -->
+            </mat-form-field>
+          </form>
+        </div>
+      </div>
+      <div
+        class="document-listing"
+        *ngIf="pagedItems?.length === 0; else showData"
+      >
+        <div class="no-data-box">
+          <div class="no-data">
+            <img src="assets\images\activities\nodata.png" alt="no data" />
+            <h4>No Records to show</h4>
+          </div>
+        </div>
+      </div>
+      <ng-template #showData>
+        <div class="common-table">
+          <table mat-table [dataSource]="pagedItems" class="mat-elevation-z8">
+            <!-- Position Column -->
+            <ng-container matColumnDef="No">
+              <th mat-header-cell *matHeaderCellDef>No</th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                {{ this.currentPager.startIndex + i + 1 }}
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="Employee ID">
+              <th mat-header-cell *matHeaderCellDef>Admin ID</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.employeeId }}
+              </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="Name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.employeeName }}
+              </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="Activity Name">
+              <th mat-header-cell *matHeaderCellDef>Admin Email</th>
+              <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Location">
+              <th mat-header-cell *matHeaderCellDef>Location</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.locationName }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Role">
+              <th mat-header-cell *matHeaderCellDef>Role</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.role }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Action">
+              <th mat-header-cell *matHeaderCellDef>Action</th>
+              <td mat-cell *matCellDef="let element">
+                <button
+                  type="button"
+                  class="btn btn-red"
+                  (click)="delete(element)"
+                >
+                  <img src="assets\images\activities\delete.svg" alt="" />
+                  Delete
+                </button>
+              </td>
+            </ng-container>
+
+            <button type="button" class="btn btn-red">
+              <img src="assets\images\activities\delete.svg" alt="" /> Delete
+            </button>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <!--
+                    <mat-paginator fxFlex="100" [length]="totalLength" [pageSize]="5" [pageSizeOptions]="pageSize" (page)="pageChangeEvent($event)">
+                    </mat-paginator> -->
+          </table>
+        </div>
+        <app-pagination
+          (pageChange)="onPageChange($event)"
+          [page]="currentPage"
+          [pageSize]="pageSize"
+          [totalItems]="totalItems"
+        >
+        </app-pagination>
+      </ng-template>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,20 @@
+/**
+ * To only allow decimal numbers in input field.
+ * <div [nggtBackButton]><div />
+ */
+import { Directive, HostListener } from '@angular/core';
+import { Location } from '@angular/common';
+
+@Directive({
+  selector: '[appBackButton]'
+})
+export class BackButtonDirective {
+
+  constructor(
+    private location: Location
+  ) { }
+
+  @HostListener('click') onClick(): void {
+    this.location.back();
+  }
+}
