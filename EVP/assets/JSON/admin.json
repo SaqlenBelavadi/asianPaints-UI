@@ -1,61 +1,69 @@
 {
-    "NavigationItems": [
+  "NavigationItems": [
+    {
+      "displayName": "DashBoard",
+      "url": "/dashboard",
+      "icon": "assets/images/icons/reviewboard.svg",
+      "subMenu": false,
+      "disable": false,
+      "subMenuList": []
+    },
+    {
+      "displayName": "Activities",
+      "url": "/activity/activities",
+      "icon": "assets/images/icons/admin.svg",
+      "subMenu": false,
+      "disable": false,
+      "subMenuList": []
+    },
+    {
+      "displayName": "Gallery",
+      "url": "/gallery/gallery-list",
+      "icon": "assets/images/icons/admin.svg",
+      "subMenu": false,
+      "disable": false,
+      "subMenuList": []
+    },
+    {
+      "displayName": "Participation",
+      "url": "/participation/participation-list",
+      "icon": "assets/images/icons/admin.svg",
+      "subMenu": false,
+      "disable": false,
+      "subMenuList": []
+    },
+    {
+      "displayName": "Finance",
+      "url": "/finance/finance-list",
+      "icon": "assets/images/icons/reviewboard.svg",
+      "subMenu": false,
+      "disable": false,
+      "subMenuList": []
+    },
+    {
+      "displayName": "Admin Activity",
+      "url": null,
+      "icon": "assets/images/icons/reviewboard.svg",
+      "subMenu": false,
+      "disable": true,
+      "subMenuList": [
         {
-            "displayName": "DashBoard",
-            "url": "/dashboard",
-            "icon": "assets/images/icons/reviewboard.svg",
-            "subMenu": false,
-            "disable": false,
-            "subMenuList": []
+          "displayName": "Promotions",
+          "url": "/admin-activity/promotions",
+          "icon": "assets/images/icons/category.svg",
+          "subMenu": false,
+          "subMenuList": [],
+          "disable": false
         },
         {
-            "displayName": "Activities",
-            "url": "/activity/activities",
-            "icon": "assets/images/icons/admin.svg",
-            "subMenu": false,
-            "disable": false,
-            "subMenuList": []
-        },
-        {
-            "displayName": "Gallery",
-            "url": "/gallery/gallery-list",
-            "icon": "assets/images/icons/admin.svg",
-            "subMenu": false,
-            "disable": false,
-            "subMenuList": []
-        },
-        {
-            "displayName": "Participation",
-            "url": "/participation/participation-list",
-            "icon": "assets/images/icons/admin.svg",
-            "subMenu": false,
-            "disable": false,
-            "subMenuList": []
-        },
-        {
-            "displayName": "Finance",
-            "url": "/finance/finance-list",
-            "icon": "assets/images/icons/reviewboard.svg",
-            "subMenu": false,
-            "disable": false,
-            "subMenuList": []
-        },
-        {
-            "displayName": "Admin Activity",
-            "url": null,
-            "icon": "assets/images/icons/reviewboard.svg",
-            "subMenu": false,
-            "disable": true,
-            "subMenuList": [
-                {
-                    "displayName": "Promotions",
-                    "url": "/admin-activity/promotions",
-                    "icon": "assets/images/icons/category.svg",
-                    "subMenu": false,
-                    "subMenuList": [],
-                    "disable": false
-                }
-            ]
+          "displayName": "Configure Landing Page",
+          "url": "/landing-config/banner-list",
+          "icon": "assets/images/icons/category.svg",
+          "subMenu": false,
+          "subMenuList": [],
+          "disable": false
         }
-    ]
+      ]
+    }
+  ]
 }
